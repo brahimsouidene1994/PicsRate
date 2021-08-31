@@ -17,6 +17,7 @@ const height = (Dimensions.get('screen').height / rows);
 export default function PictureDetails({ navigation, route }) {
     const [currentPicture, setCurrentPicture] = React.useState(null);
     const [btnState, setBtnState] = React.useState(false);
+    // console.log(route.params);
     const { _id} = route.params;
     const [loading, setLoading] = React.useState(false);
 
@@ -78,7 +79,7 @@ export default function PictureDetails({ navigation, route }) {
                                     <Text style={style.infoValue}>{currentPicture.contextPic}</Text>
                                 </Text>
                                 <Text style={style.infoLabel}>Description :
-                                    <Text style={style.infoValue}>{currentPicture.contextPic}</Text>
+                                    <Text style={style.infoValue}>{currentPicture.description}</Text>
                                 </Text>
                                 <Text style={style.infoLabel}>Created at : 
                                     <Text style={style.infoValue}>{currentPicture.createdAt}</Text>

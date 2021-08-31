@@ -1,7 +1,9 @@
 import React from 'react';
-import { Text,StyleSheet, Dimensions, Pressable } from 'react-native';
+import { Text,StyleSheet, Dimensions, Pressable, Alert, ActivityIndicator } from 'react-native';
 import { Card } from 'react-native-paper';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+
+import PictureService from '../../services/picture.service';
 /**grid display */
 const rows = 3;
 const cols = 2;
@@ -13,7 +15,27 @@ const height = (Dimensions.get('screen').height / rows);
 
 function Picture(props) {
     const { _id, contextPic, createdAt, path, status } = props.pic;
+    const [loading , setLoading]= React.useState(false);
+
+    const deletePicture = ()=>{
+        setLoading(true);
+        PictureService.deletePicture(_id)
+            .then(()=>{
+                Alert.alert(
+                    "Success!!",
+                    "You picture is deleted :)",
+                    [
+                      { text: "OK", onPress:()=>setLoading(false)}
+                    ]
+                  );
+            })
+            .catch((error)=>{
+                console.log(error)
+            })
+    }
+
     return (
+        
         <Pressable
             onPress={() => {
                 props.navigation.navigate('Picture Details',props.pic);
@@ -31,11 +53,34 @@ function Picture(props) {
                     <Icon name="eye-off" style={style.textStatusDisactivated}/>
                 }
             </Text>
+            <ActivityIndicator size={50} animating={loading} color={'red'} style={style.cardActivityIndicator}/>  
             <Card style={style.boxContainer} mode={'outlined'}>
                 <Card.Cover source={{ uri: path }} style={style.cardImage} />
                 <Card.Actions style={{backgroundColor:'transparent', justifyContent:'space-between'}}>
                    <Text style={style.cardBottomText}>{contextPic}</Text>
-                   <Text style={style.cardBottomText}>result test</Text>
+                   <Text style={style.cardBottomText}>result</Text>
+                   {!status?
+                        <Icon name="delete-outline" size={25} onPress={()=>{
+                            Alert.alert(
+                                "Warning",
+                                "Are you sure about deleting this picture!!",
+                                [
+                                  { text: "YES", onPress:()=>deletePicture()},
+                                  { text: "Cancel"}
+                                ]
+                              );
+                        }}/>
+                        :
+                        <Icon name="delete-off-outline" size={25} onPress={()=>{
+                            Alert.alert(
+                                "Warning",
+                                "You picture is activated, you can't delete it :)",
+                                [
+                                  { text: "OK"}
+                                ]
+                              );
+                        }}/>
+                   }
                 </Card.Actions>
             </Card>
         </Pressable>
@@ -65,6 +110,14 @@ const style = StyleSheet.create({
         display:'flex',
         alignItems:'center',
         justifyContent:'center'
+    },
+    cardActivityIndicator:{
+        width:100,
+        height:100,
+        position:'absolute',
+        zIndex:50,
+        top:50,
+        left : 50,
     },
 
     cardImage: {

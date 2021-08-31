@@ -38,6 +38,24 @@ const patchPictureStatus = async (idPicture, status) => {
     };
 }
 
+const saveNewPicture = async (pictureData) => {
+    let newPicture ;
+    let headers = await authHeader("multipart/form-data");
+    try {
+        await axios.post(API_URL + `add`, pictureData,
+            {
+                headers: headers
+            },
+        )
+            .then(response => {
+                newPicture = response.data.object
+            });
+    } catch (error) {
+        console.warn(error);
+    };
+    return newPicture
+}
+
 const getOnePicture = async(id)=>{
     let picture;
     let headers = await authHeader();
@@ -55,8 +73,26 @@ const getOnePicture = async(id)=>{
     };
     return picture;
 }
+
+const deletePicture = async (id)=>{
+    let headers = await authHeader();
+    try{
+        await axios.delete(API_URL + `delete/${id}`,
+        {
+            headers : headers
+        },
+        )
+        .then(response=>{
+            //console.log(response.data)
+        })
+    }catch(error){
+        console.log(error)
+    }
+}
 export default {
     getPicturesByCurrentUser,
     patchPictureStatus,
-    getOnePicture
+    getOnePicture,
+    saveNewPicture,
+    deletePicture
 };
