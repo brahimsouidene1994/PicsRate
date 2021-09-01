@@ -1,5 +1,5 @@
 import React from 'react'
-import { View, Image,StyleSheet, Dimensions, SafeAreaView, Pressable } from 'react-native'
+import { View, Image,StyleSheet, Dimensions, SafeAreaView, Pressable, StatusBar } from 'react-native'
 
 const width = (Dimensions.get('screen').width) ;
 const height = (Dimensions.get('screen').height);
@@ -7,6 +7,9 @@ export default function ModalPicture({navigation ,route}) {
     // console.log(route)
     return (
         <SafeAreaView style={{flex : 1, backgroundColor:'#000'}}>
+            <StatusBar
+                hidden={true}
+            />
             <Pressable
                 onPress={() => {
                     navigation.goBack();
@@ -22,7 +25,7 @@ export default function ModalPicture({navigation ,route}) {
 const style = StyleSheet.create({
     container : {
         height : height,
-        paddingTop : 30,
+        paddingTop : StatusBar.currentHeight + 30,
         justifyContent : 'flex-start',
         alignItems : 'center',
         

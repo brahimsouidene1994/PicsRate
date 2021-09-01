@@ -6,6 +6,7 @@ import {
 import { Button } from 'react-native-paper';
 
 import PictureService from "../../services/picture.service";
+import axios from 'axios';
 
 /**grid display */
 const rows = 3;
@@ -17,19 +18,26 @@ const height = (Dimensions.get('screen').height / rows);
 export default function PictureDetails({ navigation, route }) {
     const [currentPicture, setCurrentPicture] = React.useState(null);
     const [btnState, setBtnState] = React.useState(false);
-    // console.log(route.params);
     const { _id} = route.params;
     const [loading, setLoading] = React.useState(false);
 
     React.useEffect(() => {
-        getCurrentPicture(_id);
-    })
-    const getCurrentPicture = (id) => {
-        PictureService.getOnePicture(id)
+        
+        const cancelToken = axios.CancelToken;
+        const source = cancelToken.source();
+
+        getCurrentPicture(_id, source);
+        
+        return () => {
+            source.cancel("axios request cancelled");
+        };
+    },[])
+    const getCurrentPicture = (id, source) => {
+        PictureService.getOnePicture(id, source)
             .then(response => {
                 setCurrentPicture(response)
             })
-            .catch((error) => Alert.alert(error))
+            .catch((error) => Alert.alert(error));
     }
 
     const handleStatus = (id, status) => {

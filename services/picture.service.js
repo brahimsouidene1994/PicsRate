@@ -10,7 +10,7 @@ const getPicturesByCurrentUser = async (idUser) => {
         await axios.post(API_URL + "getAllByUser",
             {
                 headers: headers,
-                data: { idUser: idUser },
+                data: { idUser: idUser }
             },
         )
             .then(response => {
@@ -56,13 +56,14 @@ const saveNewPicture = async (pictureData) => {
     return newPicture
 }
 
-const getOnePicture = async(id)=>{
+const getOnePicture = async(id, source)=>{
     let picture;
     let headers = await authHeader();
     try{
         await axios.get(API_URL + `getOnePicture/${id}`,
         {
-            headers : headers
+            headers : headers,
+            cancelToken : source.token
         },
         )
         .then(response =>{
@@ -70,6 +71,10 @@ const getOnePicture = async(id)=>{
         });
     }catch (error) {
         console.warn(error);
+        if (axios.isCancel(err)) {
+            return "axios request cancelled";
+        }
+        return error;
     };
     return picture;
 }
