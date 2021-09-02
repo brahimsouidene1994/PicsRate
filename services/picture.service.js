@@ -94,10 +94,31 @@ const deletePicture = async (id)=>{
         console.log(error)
     }
 }
+
+const getRandomPictureOfOthers = async (idUser) => {
+    let headers = await authHeader();
+    let randomPicture;
+    try {
+        await axios.post(API_URL + "getOneRandomPicture",
+            {
+                headers: headers,
+                data: { idUser: idUser }
+            },
+        )
+            .then(response => {
+                randomPicture = response.data;
+            });
+    } catch (error) {
+        console.warn(error);
+    };
+    return randomPicture;
+}
+
 export default {
     getPicturesByCurrentUser,
     patchPictureStatus,
     getOnePicture,
     saveNewPicture,
-    deletePicture
+    deletePicture,
+    getRandomPictureOfOthers
 };

@@ -19,6 +19,7 @@ import MenuPages from './pages/MenuPages';
 import TestPage from './pages/TestPage';
 import PictureDetails from './pages/PictureDetails';
 import ModalPicture from './pages/ModalPicture';
+import ModalComments from './pages/ModalComments';
 const theme = {
     ...DefaultTheme,
     roundness: 10,
@@ -113,6 +114,18 @@ function Routes() {
                                                 <Stack.Screen 
                                                 name="My Modal" 
                                                 component={ModalPicture}
+                                                />
+                                            </Stack.Group>
+                                            <Stack.Group 
+                                                screenOptions={{ 
+                                                    title:'Comments',
+                                                    presentation: 'fullScreenModal', 
+                                                    animation : "fade" 
+                                                    }}
+                                            >
+                                                <Stack.Screen 
+                                                name="My Modal Comments" 
+                                                component={ModalComments}
                                                 />
                                             </Stack.Group>
                                         </>

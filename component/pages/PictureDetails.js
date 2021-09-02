@@ -6,6 +6,8 @@ import {
 import { Button } from 'react-native-paper';
 
 import PictureService from "../../services/picture.service";
+import CommentService from '../../services/comment.service';
+import { CredentialsContext } from '../../context/credentialsContext';
 import axios from 'axios';
 
 /**grid display */
@@ -18,26 +20,38 @@ const height = (Dimensions.get('screen').height / rows);
 export default function PictureDetails({ navigation, route }) {
     const [currentPicture, setCurrentPicture] = React.useState(null);
     const [btnState, setBtnState] = React.useState(false);
-    const { _id} = route.params;
+    const [commentsCount, setCommentsCount] = React.useState(0);
+    const { _id } = route.params;
     const [loading, setLoading] = React.useState(false);
 
+    const { loadCommentsOfPicture } = React.useContext(CredentialsContext);
+
     React.useEffect(() => {
-        
+
         const cancelToken = axios.CancelToken;
         const source = cancelToken.source();
 
         getCurrentPicture(_id, source);
-        
+
         return () => {
             source.cancel("axios request cancelled");
         };
-    },[])
+    }, [])
     const getCurrentPicture = (id, source) => {
+        loadCommentsOfPicture(null)
         PictureService.getOnePicture(id, source)
             .then(response => {
                 setCurrentPicture(response)
             })
             .catch((error) => Alert.alert(error));
+        CommentService.getAllCommentOfPicture(id)
+            .then((response) => {
+                if (response) {
+                    loadCommentsOfPicture(response)
+                    setCommentsCount(response.length)
+                }
+                else console.log('no comments')
+            })
     }
 
     const handleStatus = (id, status) => {
@@ -49,9 +63,9 @@ export default function PictureDetails({ navigation, route }) {
                     "Status changing",
                     "Your picture's status changed with success :)",
                     [
-                      { text: "OK"}
+                        { text: "OK" }
                     ]
-                  );
+                );
                 setLoading(false);
                 setBtnState(false);
             })
@@ -83,23 +97,23 @@ export default function PictureDetails({ navigation, route }) {
                                 </Pressable>
                             </View>
                             <View style={style.info}>
-                                <Text style={style.infoLabel}>Context : 
+                                <Text style={style.infoLabel}>Context :
                                     <Text style={style.infoValue}>{currentPicture.contextPic}</Text>
                                 </Text>
                                 <Text style={style.infoLabel}>Description :
                                     <Text style={style.infoValue}>{currentPicture.description}</Text>
                                 </Text>
-                                <Text style={style.infoLabel}>Created at : 
+                                <Text style={style.infoLabel}>Created at :
                                     <Text style={style.infoValue}>{currentPicture.createdAt}</Text>
                                 </Text>
                                 <Text style={style.infoLabel} >Status :
-                                    {currentPicture.status ? 
-                                        <Text style={{ color: 'green', fontSize : 14 }}> Activated</Text> 
-                                        : 
-                                        <Text style={{ color: 'red', fontSize : 14 }}> Desactivated</Text>} 
-                                </Text>                       
+                                    {currentPicture.status ?
+                                        <Text style={{ color: 'green', fontSize: 14 }}> Activated</Text>
+                                        :
+                                        <Text style={{ color: 'red', fontSize: 14 }}> Desactivated</Text>}
+                                </Text>
                                 <Text style={style.infoLabel}>Votes :
-                                  <Text style={style.infoValue}>45 vote</Text> 
+                                    <Text style={style.infoValue}>45 vote</Text>
                                 </Text>
                                 {currentPicture.status ?
                                     <Button
@@ -132,6 +146,19 @@ export default function PictureDetails({ navigation, route }) {
                         </View>
                     }
                 </View>
+                <View style={{ flex: 1, padding:10, alignItems:'center'}}>
+                    <Button
+                        style={style.btnComments}
+                        contentStyle={{ height: 50 }}
+                        labelStyle={{ color: "#000", fontSize: 16 }}
+                        mode="contained"
+                        color="#c0c0c0"
+                        disabled={btnState}
+                        onPress={() => navigation.navigate('My Modal Comments')}
+                    >
+                        Comments : {commentsCount}
+                    </Button>
+                </View>
             </ScrollView>
         </SafeAreaView>
     )
@@ -156,6 +183,8 @@ const style = StyleSheet.create({
         display: 'flex',
         flexDirection: 'row',
         justifyContent: 'space-between',
+        borderBottomColor: '#a2a8a3',
+        borderBottomWidth: 1,
     },
     image: {
         width: width - 20,
@@ -168,14 +197,18 @@ const style = StyleSheet.create({
         justifyContent: 'space-around',
         paddingLeft: 10
     },
-    infoLabel:{
-        fontSize :16,
-        color : '#6b6969',
-        textTransform : 'capitalize'
+    infoLabel: {
+        fontSize: 16,
+        color: '#6b6969',
+        textTransform: 'capitalize'
 
     },
-    infoValue:{
-        fontSize : 14,
-        color :'#000'
+    infoValue: {
+        fontSize: 14,
+        color: '#000'
+    },
+    btnComments:{
+        borderRadius:40,
+        width:width
     }
 });
