@@ -9,6 +9,7 @@ import {
 import IconIonic from 'react-native-vector-icons/Ionicons';
 import IconMat from 'react-native-vector-icons/MaterialIcons';
 import IconEntypo from 'react-native-vector-icons/Entypo';
+import IconFA from 'react-native-vector-icons/FontAwesome5';
 import AuthService from "../../services/auth.service";
 import {CredentialsContext} from '../../context/credentialsContext';
 
@@ -25,7 +26,7 @@ export default function MenuPages() {
         <View >
             <Menu >
                 <MenuTrigger >
-                    <IconIonic name="ellipsis-vertical" size={20} color="#fff" style={style.container} />
+                    <IconIonic name="ellipsis-vertical-circle-outline" size={40} color="#fff" style={style.container} />
                 </MenuTrigger>
                 <MenuOptions customStyles={{optionWrapper: { padding: 7}}} style={{padding:7}}>
                     <MenuOption 
@@ -60,6 +61,6 @@ export default function MenuPages() {
 const style = StyleSheet.create({
     container:{
         width:50,
-        textAlign:'center', 
+        textAlign:'center',
     }
 });

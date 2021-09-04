@@ -59,6 +59,8 @@ export default function Vote({ navigation }) {
                 <View style={style.imageContainer}>
                     {
                         randomPictureToVote ?
+                            <>
+                            
                             <Pressable
                                 onPress={() => {
                                     navigation.navigate('My Modal', randomPictureToVote.path)
@@ -72,6 +74,8 @@ export default function Vote({ navigation }) {
                                 ]}>
                                 <Image source={{ uri: randomPictureToVote.path }} style={style.picture} />
                             </Pressable>
+                            <Text>{randomPictureToVote._id}</Text>
+                            </>
                             :
                             <ActivityIndicator size="large" color="#257efa" animating={true} />
                     }
@@ -117,7 +121,6 @@ const style = StyleSheet.create({
     imageContainer: {
         height: height,
         width: width,
-
     },
     picture: {
         height: height,

@@ -8,7 +8,7 @@ import { Button } from 'react-native-paper';
 import PictureService from "../../services/picture.service";
 import CommentService from '../../services/comment.service';
 import { CredentialsContext } from '../../context/credentialsContext';
-import axios from 'axios';
+
 
 /**grid display */
 const rows = 3;
@@ -27,19 +27,11 @@ export default function PictureDetails({ navigation, route }) {
     const { loadCommentsOfPicture } = React.useContext(CredentialsContext);
 
     React.useEffect(() => {
-
-        const cancelToken = axios.CancelToken;
-        const source = cancelToken.source();
-
-        getCurrentPicture(_id, source);
-
-        return () => {
-            source.cancel("axios request cancelled");
-        };
+        getCurrentPicture(_id);
     }, [])
-    const getCurrentPicture = (id, source) => {
+    const getCurrentPicture = (id) => {
         loadCommentsOfPicture(null)
-        PictureService.getOnePicture(id, source)
+        PictureService.getOnePicture(id)
             .then(response => {
                 setCurrentPicture(response)
             })
@@ -69,7 +61,12 @@ export default function PictureDetails({ navigation, route }) {
                 setLoading(false);
                 setBtnState(false);
             })
-            .catch((error) => Alert.alert(error))
+            .catch((error) => Alert.alert(error));
+        PictureService.getOnePicture(id)
+            .then(response => {
+                setCurrentPicture(response)
+            })
+            .catch((error) => Alert.alert(error));
     }
     return (
         <SafeAreaView style={{ flex: 1 }}>

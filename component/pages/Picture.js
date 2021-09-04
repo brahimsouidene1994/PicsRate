@@ -1,8 +1,8 @@
 import React from 'react';
 import { Text,StyleSheet, Dimensions, Pressable, Alert, ActivityIndicator } from 'react-native';
 import { Card } from 'react-native-paper';
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-
+import IconIonic from 'react-native-vector-icons/Ionicons';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 import PictureService from '../../services/picture.service';
 /**grid display */
 const rows = 3;
@@ -49,8 +49,8 @@ function Picture(props) {
             ]}>
             <Text style={style.cardIcon}>
                 {status ? 
-                    <Icon name="eye-check" style={style.textStatusActivated}/> :
-                    <Icon name="eye-off" style={style.textStatusDisactivated}/>
+                    <IconIonic name="globe-outline" style={style.textStatusActivated}/> :
+                    <IconIonic name="lock-closed-outline" style={style.textStatusDisactivated}/>
                 }
             </Text>
             <ActivityIndicator size={50} animating={loading} color={'red'} style={style.cardActivityIndicator}/>  
@@ -58,7 +58,7 @@ function Picture(props) {
                 <Card.Cover source={{ uri: path }} style={style.cardImage} />
                 <Card.Actions style={{backgroundColor:'transparent', justifyContent:'space-between'}}>
                    <Text style={style.cardBottomText}>{contextPic}</Text>
-                   <Text style={style.cardBottomText}>result</Text>
+                   <Text style={style.cardBottomText}>45V</Text>
                    {!status?
                         <Icon name="delete-outline" size={25} onPress={()=>{
                             Alert.alert(
@@ -127,14 +127,14 @@ const style = StyleSheet.create({
     },
     textStatusActivated: {
         fontSize:50,
-        color: '#00ad06',
+        color: '#36a300',
         textShadowColor: '#000',
         textShadowOffset: { width: 1, height: 3 },
         textShadowRadius: 20
     },
     textStatusDisactivated: {
         fontSize:50,
-        color: 'red',
+        color: '#a60000',
         textShadowColor: '#000',
         textShadowOffset: { width: 1, height: 3 },
         textShadowRadius: 20

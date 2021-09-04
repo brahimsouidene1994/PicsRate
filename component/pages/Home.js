@@ -6,15 +6,20 @@ import Picture from './Picture';
 
 function Home({ navigation }) {
     const { userCredentials, setUpNavigation, fillPictures, pictures } = React.useContext(CredentialsContext);
+    const [pictureState, setPictureState] = React.useState([]);
     React.useEffect(() => {
         if (userCredentials)
             checkPictures(userCredentials.id);
-    }, [userCredentials, pictures]);
-
+    }, [userCredentials,pictureState]);
+    // React.useEffect(() => {
+    //     // if (pictureState.length>0)
+    //     //     console.log(pictureState)
+    // }, [pictures]);
     const checkPictures = (id) => {
         PictureService.getPicturesByCurrentUser(id)
             .then((data) => {
-                fillPictures(data)
+                fillPictures(data);
+                setPictureState(data);
                 setUpNavigation(navigation);
             })
             .catch(error => {
@@ -22,7 +27,7 @@ function Home({ navigation }) {
             })
     }
 
-    const picturesTests = pictures.map((pic) => {
+    const picturesTests = pictureState.map((pic) => {
         return (
             <Picture key={pic._id} style={style.boxContainer} pic={pic} navigation={navigation} />
         )

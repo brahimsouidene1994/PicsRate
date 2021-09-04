@@ -56,14 +56,13 @@ const saveNewPicture = async (pictureData) => {
     return newPicture
 }
 
-const getOnePicture = async(id, source)=>{
+const getOnePicture = async(id)=>{
     let picture;
     let headers = await authHeader();
     try{
         await axios.get(API_URL + `getOnePicture/${id}`,
         {
-            headers : headers,
-            cancelToken : source.token
+            headers : headers
         },
         )
         .then(response =>{
