@@ -5,7 +5,7 @@ import {
     GoogleSigninButton,
     statusCodes,
 } from '@react-native-google-signin/google-signin';
-import { TextInput, Button } from 'react-native-paper';
+import { TextInput, Button, RadioButton  } from 'react-native-paper';
 
 import { CredentialsContext } from '../../context/credentialsContext';
 
@@ -45,19 +45,23 @@ function Signup() {
     const [password, setPassword] = React.useState('');
     const [message, setMessage] = React.useState("");
 
+    const [checkedBtnSexe, setCheckedBtnSexe] = React.useState("MALE");
     const [eye, setEye] = React.useState('eye-off');
     const [visiblePwd, setVisiblePwd] = React.useState(false);
 
     const [userGoogleInfo, setUserGoogleInfo] = React.useState({});
 
+
     const testInputs = (email, password) => {
         if (!email || !password) return true
         else return false
     }
+
+
     //sign up 
-    const createUser = (email, password) => {
+    const createUser = (email, password, sexe) => {
         setLoadingIndicator(true);
-        AuthService.register(email, password).then(
+        AuthService.register(email, password, sexe ).then(
             (userInfo) => {
                 setLoadingIndicator(false);
                 handleStates(userInfo, true);
@@ -123,7 +127,8 @@ function Signup() {
                 size={GoogleSigninButton.Size.Wide}
                 color={GoogleSigninButton.Color.Dark}
                 onPress={_signIn}
-                disabled={loadingIndicator}
+                // disabled={loadingIndicator}
+                disabled={true}
             />
             <KeyboardAvoidingView
                 behavior={Platform.OS === "android" ? "padding" : "height"} style={style.formPage}>
@@ -180,13 +185,35 @@ function Signup() {
                                 (<Text style={style.errorText}>{props.errors.password} </Text>)
                                 : null
                             }
+                            <View style={{flexDirection:'row', justifyContent:'space-around'}}>
+                                <View style={{flexDirection:'row', alignItems:"center", padding:10}}>
+                                    <RadioButton
+                                        color={'#257efa'}
+                                        uncheckedColor={'#257efa'}
+                                        value="MALE"
+                                        status={ checkedBtnSexe === 'MALE' ? 'checked' : 'unchecked' }
+                                        onPress={() => setCheckedBtnSexe('MALE')}
+                                    />
+                                    <Text>Male</Text>
+                                </View>
+                                <View style={{flexDirection:'row', alignItems:"center"}}>
+                                    <RadioButton
+                                        color={'#257efa'}
+                                        uncheckedColor={'#257efa'}
+                                        value="FEMALE"
+                                        status={ checkedBtnSexe === 'FEMALE' ? 'checked' : 'unchecked' }
+                                        onPress={() => setCheckedBtnSexe('FEMALE')}
+                                    />
+                                    <Text>Female</Text>
+                                </View>
+                            </View>
                             <Button
                                 style={style.btn}
                                 contentStyle={{ height: 50 }}
                                 labelStyle={{ color: "white", fontSize: 18, fontWeight: 'bold' }}
                                 mode="contained"
                                 color="#257efa"
-                                onPress={() => () => createUser(email, password)}
+                                onPress={() => createUser(email, password, checkedBtnSexe)}
                                 disabled={
                                     props.errors.email || props.errors.password ?
                                         true

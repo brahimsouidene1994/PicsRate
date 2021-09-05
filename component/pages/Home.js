@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, ScrollView, StyleSheet, ActivityIndicator, StatusBar, SafeAreaView } from 'react-native';
+import {Text, View, ScrollView, StyleSheet, ActivityIndicator, StatusBar, SafeAreaView } from 'react-native';
 import { CredentialsContext } from '../../context/credentialsContext';
 import PictureService from "../../services/picture.service";
 import Picture from './Picture';
@@ -7,6 +7,8 @@ import Picture from './Picture';
 function Home({ navigation }) {
     const { userCredentials, setUpNavigation, fillPictures, pictures } = React.useContext(CredentialsContext);
     const [pictureState, setPictureState] = React.useState([]);
+
+    const [loading, setLoading] = React.useState(true);
     React.useEffect(() => {
         if (userCredentials)
             checkPictures(userCredentials.id);
@@ -32,7 +34,7 @@ function Home({ navigation }) {
             <Picture key={pic._id} style={style.boxContainer} pic={pic} navigation={navigation} />
         )
     });
-
+    
     return (
         <SafeAreaView style={{flex:1}}>
             <StatusBar
@@ -41,11 +43,11 @@ function Home({ navigation }) {
             <ScrollView style={style.container} >
                 <View style={style.sectionContainer}>
                     {
-                        picturesTests.length > 0 ?
-                            picturesTests
-                            :
-                            <ActivityIndicator size="large" color="#257efa" animating={true} />
-                    }
+                        pictureState.length> 0?
+                         picturesTests
+                         :
+                         <ActivityIndicator size="large" color="#257efa" animating={true} />  
+                    }            
                 </View>
             </ScrollView>
         </SafeAreaView>
