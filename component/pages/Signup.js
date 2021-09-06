@@ -1,5 +1,6 @@
 import React from 'react';
-import { View, Text, ScrollView, StyleSheet, KeyboardAvoidingView, ActivityIndicator, Alert } from 'react-native';
+import { View, Text, ScrollView, StyleSheet, KeyboardAvoidingView, ActivityIndicator, Alert
+            , TouchableWithoutFeedback, Keyboard} from 'react-native';
 import {
     GoogleSignin,
     GoogleSigninButton,
@@ -120,20 +121,24 @@ function Signup() {
         }
     }
     return (
-        <ScrollView style={style.container}>
+        <ScrollView 
+        keyboardShouldPersistTaps='handled'
+        style={style.container}>
             <Text style={style.title}>Sign up</Text>
-            <GoogleSigninButton
+            {/* <GoogleSigninButton
                 style={{ height: 60 }}
                 size={GoogleSigninButton.Size.Wide}
                 color={GoogleSigninButton.Color.Dark}
                 onPress={_signIn}
                 // disabled={loadingIndicator}
                 disabled={true}
-            />
+            /> */}
             <KeyboardAvoidingView
-                behavior={Platform.OS === "android" ? "padding" : "height"} style={style.formPage}>
-                <Text style={style.orText}>or</Text>
-                <ActivityIndicator size="large" color="#257efa" animating={loadingIndicator} />
+                behavior={Platform.OS === "android" || Platform.OS === "ios" ? "position" : "padding"} style={style.formPage}>
+                {/* <Text style={style.orText}>or</Text> */}
+                {/* <ActivityIndicator size="large" color="#257efa" animating={loadingIndicator} /> */}
+                <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+                    
                 <Formik
                     onSubmit={values => console.log(values)}
                     validationSchema={validationSchema}
@@ -220,6 +225,7 @@ function Signup() {
                                         :
                                         false
                                 }
+                                loading={loadingIndicator}
                             >
                                 sign up
                             </Button>
@@ -227,6 +233,7 @@ function Signup() {
                     )
                 }}
                 </Formik>
+                </TouchableWithoutFeedback>
             </KeyboardAvoidingView>
         </ScrollView>
     )

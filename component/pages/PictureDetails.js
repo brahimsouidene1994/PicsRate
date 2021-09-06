@@ -3,7 +3,7 @@ import {
     View, Text, SafeAreaView, ScrollView, Image, StyleSheet, Dimensions,
     Pressable, Alert, ActivityIndicator
 } from 'react-native';
-import { Button } from 'react-native-paper';
+import { Button, Snackbar } from 'react-native-paper';
 
 import PictureService from "../../services/picture.service";
 import CommentService from '../../services/comment.service';
@@ -25,6 +25,12 @@ export default function PictureDetails({ navigation, route }) {
     const [loading, setLoading] = React.useState(false);
 
     const { loadCommentsOfPicture } = React.useContext(CredentialsContext);
+
+    const [visible, setVisible] = React.useState(false);
+
+    const onToggleSnackBar = () => setVisible(!visible);
+
+    const onDismissSnackBar = () => setVisible(false);
 
     React.useEffect(() => {
         getCurrentPicture(_id);
@@ -51,13 +57,7 @@ export default function PictureDetails({ navigation, route }) {
         setLoading(true);
         PictureService.patchPictureStatus(id, status)
             .then(() => {
-                Alert.alert(
-                    "Status changing",
-                    "Your picture's status changed with success :)",
-                    [
-                        { text: "OK" }
-                    ]
-                );
+                setVisible(true);
                 setLoading(false);
                 setBtnState(false);
             })
@@ -138,6 +138,7 @@ export default function PictureDetails({ navigation, route }) {
                                     >
                                         start test
                                     </Button>
+                                    
                                 }
                             </View>
                         </View>
@@ -156,7 +157,20 @@ export default function PictureDetails({ navigation, route }) {
                         Comments : {commentsCount}
                     </Button>
                 </View>
+                
             </ScrollView>
+                <Snackbar
+                    style={style.snackBar}
+                    visible={visible}
+                    onDismiss={onDismissSnackBar}
+                    action={{
+                    label: 'ok',
+                    onPress: () => {
+                        setVisible(false)
+                    },
+                    }}>
+                    Your Status updated successfuly
+                </Snackbar>
         </SafeAreaView>
     )
 }
@@ -207,5 +221,11 @@ const style = StyleSheet.create({
     btnComments:{
         borderRadius:40,
         width:width
+    },
+    snackBar:{
+        position:'absolute',
+        bottom:10,
+        height:50,
+        width:Dimensions.get('screen').width-20,
     }
 });

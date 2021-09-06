@@ -4,6 +4,7 @@ import { Card } from 'react-native-paper';
 import IconIonic from 'react-native-vector-icons/Ionicons';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 import PictureService from '../../services/picture.service';
+import MenuPicture from './MenuPicture';
 /**grid display */
 const rows = 3;
 const cols = 2;
@@ -40,6 +41,10 @@ function Picture(props) {
             onPress={() => {
                 props.navigation.navigate('Picture Details',props.pic);
             }}
+            onLongPress={()=>{
+
+            }}
+            delayLongPress={1000}
             style={({ pressed }) => [
                 {
                     backgroundColor: pressed
@@ -81,6 +86,7 @@ function Picture(props) {
                               );
                         }}/>
                    }
+                   {/* <MenuPicture /> */}
                 </Card.Actions>
             </Card>
         </Pressable>

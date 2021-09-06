@@ -28,11 +28,7 @@ const validationSchema = Yup.object().shape({
         .required("Enter your password")
         .min(6, "Password must be atleast 6 characteres*")
 });
-const DismissKeyboard = ({ children }) => (
-    <TouchableWithoutFeedback
-        onPress={() => Keyboard.dismiss()}> {children}
-    </TouchableWithoutFeedback>
-);
+
 
 function Login({ navigation }) {
 
@@ -77,15 +73,18 @@ function Login({ navigation }) {
     }
     return (
         <SafeAreaView style={style.containerSafe}>
-            <ScrollView style={style.container}>
+            <ScrollView style={style.container}
+                keyboardShouldPersistTaps='handled'>
                 <View >
                     <View style={style.shape}></View>
                     <View style={style.shape2}></View>
 
                     <Text style={style.pageName}>log in</Text>
                     <KeyboardAvoidingView
-                        behavior={Platform.OS === "android" ? "padding" : "height"} style={style.formPage}>
-                        <ActivityIndicator size="large" color="#257efa" animating={loadingIndicator} />
+                        behavior={ Platform.OS === "ios" || Platform.OS === "android" ? "position" : "padding"} style={{flex:1}}>
+                        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+                        <View style={style.formPage}>
+                        {/* <ActivityIndicator size="large" color="#257efa" animating={loadingIndicator} /> */}
                         <Formik
                             onSubmit={values => console.log(values)}
                             validationSchema={validationSchema}
@@ -150,6 +149,7 @@ function Login({ navigation }) {
                                                 :
                                                 false
                                         }
+                                        loading={loadingIndicator}
                                     >
                                         sign in
                                     </Button>
@@ -162,6 +162,8 @@ function Login({ navigation }) {
                             onPress={() => navigation.navigate('Signup')}
                         >You don't have account? sign up</Text>
                         <Text style={style.textAccount} onPress={() => navigation.navigate('test page')}>forget your password?</Text>
+                    </View>
+                    </TouchableWithoutFeedback>
                     </KeyboardAvoidingView>
                 </View>
             </ScrollView>

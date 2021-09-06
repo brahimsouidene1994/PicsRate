@@ -74,7 +74,6 @@ export default function Vote({ navigation }) {
                                 ]}>
                                 <Image source={{ uri: randomPictureToVote.path }} style={style.picture} />
                             </Pressable>
-                            <Text>{randomPictureToVote._id}</Text>
                             </>
                             :
                             <ActivityIndicator size="large" color="#257efa" animating={true} />
