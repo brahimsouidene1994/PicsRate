@@ -24,7 +24,7 @@ export default function PictureDetails({ navigation, route }) {
     const { _id } = route.params;
     const [loading, setLoading] = React.useState(false);
 
-    const { loadCommentsOfPicture } = React.useContext(CredentialsContext);
+    const { loadCommentsOfPicture, comments } = React.useContext(CredentialsContext);
 
     const [visible, setVisible] = React.useState(false);
 
@@ -94,11 +94,11 @@ export default function PictureDetails({ navigation, route }) {
                                 </Pressable>
                             </View>
                             <View style={style.info}>
-                                <Text style={style.infoLabel}>Context :
-                                    <Text style={style.infoValue}>{currentPicture.contextPic}</Text>
+                                <Text style={style.infoLabel}>Categoy :
+                                    <Text style={style.infoValue}>{currentPicture.category}</Text>
                                 </Text>
-                                <Text style={style.infoLabel}>Description :
-                                    <Text style={style.infoValue}>{currentPicture.description}</Text>
+                                <Text style={style.infoLabel}>Title :
+                                    <Text style={style.infoValue}>{currentPicture.contextPic}</Text>
                                 </Text>
                                 <Text style={style.infoLabel}>Created at :
                                     <Text style={style.infoValue}>{currentPicture.createdAt}</Text>
@@ -157,6 +157,7 @@ export default function PictureDetails({ navigation, route }) {
                         Comments : {commentsCount}
                     </Button>
                 </View>
+                
                 
             </ScrollView>
                 <Snackbar

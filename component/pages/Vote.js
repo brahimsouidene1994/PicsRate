@@ -5,20 +5,26 @@ import { Button, TextInput } from 'react-native-paper';
 import { CredentialsContext } from '../../context/credentialsContext';
 import PictureService from '../../services/picture.service';
 import IconMat from 'react-native-vector-icons/MaterialIcons';
-
+import IconFA from 'react-native-vector-icons/FontAwesome5';
 import CommentService from '../../services/comment.service';
+
+import SliderTraits from '../SliderTraits';
 
 const height = Dimensions.get('screen').height / 2;
 const width = Dimensions.get('screen').width;
 
+
 export default function Vote({ navigation }) {
 
-    const { userCredentials, randomPictureToVote, pickOneRandomPicture } = React.useContext(CredentialsContext);
+    const { userCredentials, randomPictureToVote, pickOneRandomPicture,   
+        voteOne, voteTow, voteThree } = React.useContext(CredentialsContext);
     const [message, setMessage] = React.useState('');
-    const [loading, setLoading] = React.useState(false); 
+    const [randomPicture, setRandomPicture] = React.useState({});
+    const [loading, setLoading] = React.useState(false);
     const [btnDisabled, setBtnDisabled] = React.useState(false);
     React.useEffect(() => {
         pickPictureRandomly();
+        // console.log('test', voteOne, voteTow, voteThree)
     }, []);
 
     const pickPictureRandomly = () => {
@@ -26,26 +32,30 @@ export default function Vote({ navigation }) {
         PictureService.getRandomPictureOfOthers(userCredentials.id)
             .then((response) => {
                 pickOneRandomPicture(response);
+                setRandomPicture(response);
                 // console.log(response)
             })
             .catch((error) => console.log(error));
     }
 
-    const submitComment = () =>{
+    const submitComment = () => {
         setLoading(true);
         setBtnDisabled(true);
         let comment = {
-            userId : userCredentials.id,
-            pictureId :  randomPictureToVote._id,
-            message : message
+            userId: userCredentials.id,
+            pictureId: randomPictureToVote._id,
+            message: message,
+            v1: voteOne,
+            v2 : voteTow,
+            v3 : voteThree
         };
         CommentService.saveNewComment(comment)
-            .then(()=>{
+            .then(() => {
                 Alert.alert(
                     "Comment",
                     "Success :)",
                     [
-                    { text: "OK", onPress : ()=>pickPictureRandomly()}
+                        { text: "OK", onPress: () => pickPictureRandomly() }
                     ]
                 );
                 setLoading(false);
@@ -54,26 +64,27 @@ export default function Vote({ navigation }) {
             })
     }
     return (
-        <ScrollView style={{flex:1}}>
+        <ScrollView style={{ flex: 1 }}>
             <View style={style.container}>
                 <View style={style.imageContainer}>
                     {
                         randomPictureToVote ?
                             <>
-                            
-                            <Pressable
-                                onPress={() => {
-                                    navigation.navigate('My Modal', randomPictureToVote.path)
-                                }}
-                                style={({ pressed }) => [
-                                    {
-                                        backgroundColor: pressed
-                                            ? 'rgb(210, 230, 255)'
-                                            : 'white'
-                                    },
-                                ]}>
-                                <Image source={{ uri: randomPictureToVote.path }} style={style.picture} />
-                            </Pressable>
+                                <Text style={style.textCategory}>{randomPictureToVote.category}</Text>
+                                <Pressable
+                                    onPress={() => {
+                                        navigation.navigate('My Modal', randomPictureToVote.path)
+                                    }}
+                                    style={({ pressed }) => [
+                                        {
+                                            backgroundColor: pressed
+                                                ? 'rgb(210, 230, 255)'
+                                                : 'white'
+                                        },
+                                    ]}>
+                                    <Image source={{ uri: randomPictureToVote.path }} style={style.picture} />
+                                </Pressable>
+
                             </>
                             :
                             <ActivityIndicator size="large" color="#257efa" animating={true} />
@@ -87,6 +98,8 @@ export default function Vote({ navigation }) {
                     </Button>
                 </View>
                 <View style={style.reactContainer}>
+                    <SliderTraits category={randomPicture.category} />
+
                     <TextInput
                         label="Comment"
                         name="comment"
@@ -97,16 +110,17 @@ export default function Vote({ navigation }) {
                             isTextInputFocused ? '#257efa' : '#b5b5b5'
                         } />}
                         value={message}
-                        onChangeText={msg => {setMessage(msg)}}
+                        onChangeText={msg => { setMessage(msg) }}
                     />
                     <Button
                         style={style.btnSubmit}
                         labelStyle={{ color: "#fff", fontSize: 18, }}
                         onPress={() => submitComment(message)}
                         loading={loading}
-                        disabled = {btnDisabled}
+                        disabled={btnDisabled}
                     >
-                        comment
+                        save
+                        <IconFA name="vote-yea" size={20} color='#fff' />
                     </Button>
                 </View>
             </View>
@@ -122,13 +136,13 @@ const style = StyleSheet.create({
         width: width,
     },
     picture: {
-        height: height,
+        height: height - 33,
         width: width
     },
     reactContainer: {
-        width: width,
-        height: height,
-        padding: 10
+        flex: 1,
+        padding: 10,
+        width: width
     },
     btnChangePic: {
         backgroundColor: 'rgba(191, 186, 186, .5)',
@@ -142,8 +156,16 @@ const style = StyleSheet.create({
         borderColor: '#257efa',
         borderTopLeftRadius: 50,
     },
-    btnSubmit:{
-        backgroundColor:'#257efa'
+    btnSubmit: {
+        backgroundColor: '#257efa'
+    },
+    textCategory: {
+        padding: 6,
+        fontSize: 16,
+        fontWeight: 'bold',
+        backgroundColor: '#40494f',
+        textAlign: 'center',
+        color: '#fff'
     }
 });
 

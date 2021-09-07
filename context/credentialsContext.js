@@ -11,6 +11,9 @@ export const CredentialsProvider = (props) =>{
     const [pictures, setPictures] = React.useState([]);
     const [comments, setComments] = React.useState([]);
 
+    const [voteOne, setVoteOne] = React.useState(0);
+    const [voteTow, setVoteTow] = React.useState(0);
+    const [voteThree, setVoteThree] = React.useState(0);
     const [navigationState, setNavigationState] = React.useState(null); 
 
     React.useEffect(()=>{
@@ -22,8 +25,7 @@ export const CredentialsProvider = (props) =>{
         if(user){
             setAuthenticated(true);
             setUserCredentials(user);
-        }
-            
+        }       
     }
 
     const handleStates = (user, auth) =>{
@@ -51,6 +53,15 @@ export const CredentialsProvider = (props) =>{
         setComments(comments)
     }
 
+    const choseVoteOne = (nbr) =>{
+        setVoteOne(nbr)
+    }
+    const choseVoteTwo = (nbr) =>{
+        setVoteTow(nbr)
+    }
+    const choseVoteThree = (nbr) =>{
+        setVoteThree(nbr)
+    }
     return (
         <CredentialsContext.Provider value={{
             userCredentials : userCredentials,
@@ -59,12 +70,18 @@ export const CredentialsProvider = (props) =>{
             navigationState : navigationState,
             randomPictureToVote : randomPictureToVote,
             comments : comments,
+            voteOne :voteOne,
+            voteTow:voteTow,
+            voteThree:voteThree,
             handleStates : handleStates,
             fillPictures : fillPictures,
             clearPictures : clearPictures,
             setUpNavigation : setUpNavigation,
             pickOneRandomPicture : pickOneRandomPicture,
-            loadCommentsOfPicture : loadCommentsOfPicture
+            loadCommentsOfPicture : loadCommentsOfPicture,
+            choseVoteOne:choseVoteOne,
+            choseVoteTwo:choseVoteTwo,
+            choseVoteThree:choseVoteThree
         }}>
             {props.children}
         </CredentialsContext.Provider>

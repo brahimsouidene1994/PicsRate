@@ -34,22 +34,52 @@ const MyInput = compose(
 const Form = withNextInputAutoFocusForm(View);
 const validationSchema = Yup.object().shape({
     context: Yup.string()
-        .required("Please! Enter a context of this picture?*"),
-    description: Yup.string()
+        .required("Please! Enter a context of this picture?*")
 });
 
 const width = Dimensions.get('screen').width / 1.5;
 const height = (Dimensions.get('screen').height / 3) - 20;
 
-
+const CategoryText = ({category}) =>{
+    if(category === 'Social'){
+        return(
+            <Text style={styles.textDescription}>Traits: 
+                <Text style={{color:'#eb4034'}}>Confident</Text>, 
+                <Text style={{color:'#1cc41a'}}>Authentic</Text>, 
+                <Text style={{color:'#1a7ac4'}}>Fun</Text>
+            </Text>
+        )
+    }else if(category === 'Business'){
+        return(
+            <Text style={styles.textDescription}>Traits: 
+                <Text style={{color:'#1cc41a'}}>Competent</Text>, 
+                <Text style={{color:'#1a7ac4'}}>Likable</Text>, 
+                <Text style={{color:'#eb4034'}}>Influential</Text>
+            </Text>
+        )
+    }else if(category === 'Dating'){
+        return(
+            <Text style={styles.textDescription}>Traits: 
+                <Text style={{color:'#1a7ac4'}}>Smart</Text>, 
+                <Text style={{color:'#1cc41a'}}>Trustworthy</Text>, 
+                <Text style={{color:'#eb4034'}}>Attractive</Text>
+            </Text>
+        )      
+    }else{
+        return(
+            null
+        )
+    }
+}
 
 export default function AddPicture({ navigation }) {
 
     const { userCredentials } = React.useContext(CredentialsContext);
 
     const [selectedPricture, setSelectedPricture] = React.useState();
+
     const [context, setContext] = React.useState('');
-    const [description, setDescription] = React.useState('');
+    const [category, setCategory] = React.useState('');
 
     const [btnDisabled, setBtnDisabled] = React.useState(false);
     const [loading, setLoading] = React.useState(false);
@@ -143,8 +173,8 @@ export default function AddPicture({ navigation }) {
                             : 
                             selectedPricture.uri.replace("file://", ""),
                         name: selectedPricture.fileName, type: selectedPricture.type});
+        formdata.append('category',category);
         formdata.append('context',context);
-        formdata.append('description',description);
         formdata.append('userId',userCredentials.id);
         PictureService.saveNewPicture(formdata)
             .then((response) => {
@@ -159,6 +189,8 @@ export default function AddPicture({ navigation }) {
             })
             .catch((error) => Alert.alert(error))
     }
+
+
     return (
         <SafeAreaView style={styles.safeAreaView}>
             <ScrollView style={styles.scrollView}>
@@ -173,8 +205,44 @@ export default function AddPicture({ navigation }) {
                             return (
                                 <Form >
                                     <View style={{ flex: 1, alignItems: 'center' }}>
+                                        <Text style={styles.textDescription}>Each category tests different traits.</Text>
+                                        <View style={{flexDirection:'row', justifyContent:'center'}}>
+                                            <Button
+                                                style={styles.btnSocial}
+                                                color={category === 'Social'?'#257efa':'#c0c0c0'}
+                                                contentStyle={{ height: 50 }}
+                                                labelStyle={{ color: "white", fontSize: 16 }}
+                                                mode="contained"
+                                                onPress={() => setCategory('Social')}
+                                            >
+                                                Social
+                                            </Button>
+                                            <Button
+                                                style={styles.btnBusiness}
+                                                color={category === 'Business'?'#257efa':'#c0c0c0'}
+                                                contentStyle={{ height: 50 }}
+                                                labelStyle={{ color: "white", fontSize: 16 }}
+                                                mode="contained"
+                                                onPress={() => setCategory('Business')}                           
+                                            >
+                                                Business
+                                            </Button>
+                                            <Button
+                                                style={styles.btnDating}
+                                                color={category === 'Dating'?'#257efa':'#c0c0c0'}
+                                                contentStyle={{ height: 50 }}
+                                                labelStyle={{ color: "white", fontSize: 16 }}
+                                                mode="contained"
+                                                onPress={() => setCategory('Dating')}
+                                            >
+                                                Dating
+                                            </Button>
+                                        </View>
+                                        <View>
+                                            <CategoryText category={category} />
+                                        </View>
                                         <MyInput
-                                            label="Context"
+                                            label="Title"
                                             name="context"
                                             outlineColor={'#257efa'}
                                             mode={'outlined'}
@@ -187,18 +255,6 @@ export default function AddPicture({ navigation }) {
                                         (<Text style={styles.errorText}>{props.errors.email} </Text>)
                                         : null
                                         }
-                                        <MyInput
-                                            multiline
-                                            label="Description"
-                                            name="description"
-                                            outlineColor={'#257efa'}
-                                            mode={'outlined'}
-                                            type="text"
-                                            numberOfLines={2}
-                                            style={styles.input}
-                                            value={description}
-                                            onChangeText={description => setDescription(description)}
-                                        />
                                         <View style={styles.inputImageSection}>
                                             <View style={styles.ImageSections}>
                                                 {renderFileUri()}
@@ -228,7 +284,7 @@ export default function AddPicture({ navigation }) {
                                             onPress={() => savePicture()}
                                             loading={loading}
                                             disabled={
-                                                !context || !selectedPricture || btnDisabled? true : false
+                                                !category || !context || !selectedPricture || btnDisabled? true : false
                                             }
                                         >
                                             Save
@@ -277,37 +333,37 @@ const styles = StyleSheet.create({
         width: width + 40
     },
     inputImageSection: {
-        padding: 10,
+        padding: 20,
         flex: 1,
+        flexDirection:'row',
         alignItems: 'center'
     },
     ImageSections: {
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
-        width: width,
-        height: height,
+        width: 140,
+        height: 140,
         backgroundColor: '#e3e3e3',
         borderRadius: 10,
     },
     logoImage: {
-        width: width - 20,
-        height: height - 20,
+        width: 140,
+        height: 140,
         borderColor: '#e0ddd3',
         borderWidth: 1,
     },
     images: {
         borderRadius: 10,
-        width: width,
-        height: height,
+        width: 140,
+        height: 140,
         borderColor: '#e0ddd3',
         borderWidth: 1,
     },
     btnParentSection: {
-        width: width,
-        flexDirection: 'row',
+        flex:1,
         justifyContent: 'space-around',
-        marginTop: 10
+        alignItems:'center'
     },
     btnSection: {
         width: 50,
@@ -325,5 +381,25 @@ const styles = StyleSheet.create({
     errorText: {
         fontSize: 14,
         color: '#9c0000'
+    },
+    textDescription:{
+        fontSize:16,
+        color:'#6b6969',
+        padding:8
+    },
+    btnSocial:{
+        borderRadius :0,
+        borderTopLeftRadius:30,
+        borderBottomLeftRadius:30,
+    },
+    btnBusiness:{
+        borderRadius:0,
+        marginLeft:5,
+        marginRight:5
+    },
+    btnDating:{
+        borderRadius :0,
+        borderTopRightRadius:30,
+        borderBottomRightRadius:30,
     }
 });
