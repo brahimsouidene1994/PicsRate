@@ -22,10 +22,10 @@ export default function Vote({ navigation }) {
     const [randomPicture, setRandomPicture] = React.useState({});
     const [loading, setLoading] = React.useState(false);
     const [btnDisabled, setBtnDisabled] = React.useState(false);
+    const [reload, setReload] = React.useState(false)
     React.useEffect(() => {
         pickPictureRandomly();
-        // console.log('test', voteOne, voteTow, voteThree)
-    }, []);
+    }, [reload]);
 
     const pickPictureRandomly = () => {
         pickOneRandomPicture(null)
@@ -55,7 +55,7 @@ export default function Vote({ navigation }) {
                     "Comment",
                     "Success :)",
                     [
-                        { text: "OK", onPress: () => pickPictureRandomly() }
+                        { text: "OK", onPress: () => setReload(!reload) }
                     ]
                 );
                 setLoading(false);

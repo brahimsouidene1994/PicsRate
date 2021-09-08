@@ -12,11 +12,11 @@ function Home({ navigation }) {
     React.useEffect(() => {
         if (userCredentials)
             checkPictures(userCredentials.id);
-    }, [userCredentials,pictureState]);
-    // React.useEffect(() => {
-    //     // if (pictureState.length>0)
-    //     //     console.log(pictureState)
-    // }, [pictures]);
+    }, [userCredentials]);
+    React.useEffect(() => {
+        // if (pictureState.length>0)
+        //     console.log(pictureState)
+    }, [pictureState]);
     const checkPictures = (id) => {
         PictureService.getPicturesByCurrentUser(id)
             .then((data) => {

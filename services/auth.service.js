@@ -47,8 +47,8 @@ const login = (email, password) => {
     
 };
 
-const logout = async () => {
-    await AsyncStorage.removeItem('userLoggedIn')
+const logout = () => {
+   AsyncStorage.removeItem('userLoggedIn')
     .then(()=>{
         console.log('user logged out')
     })

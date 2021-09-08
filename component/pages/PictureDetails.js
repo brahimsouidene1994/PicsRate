@@ -21,6 +21,10 @@ export default function PictureDetails({ navigation, route }) {
     const [currentPicture, setCurrentPicture] = React.useState(null);
     const [btnState, setBtnState] = React.useState(false);
     const [commentsCount, setCommentsCount] = React.useState(0);
+
+    const [votingResultText, setVotingResultText] = React.useState('');
+    const [votingResultMoy, setVotingResultMoy] = React.useState(0);
+    const [reactionsTot, setReactionsTot] = React.useState(0);
     const { _id } = route.params;
     const [loading, setLoading] = React.useState(false);
 
@@ -45,11 +49,58 @@ export default function PictureDetails({ navigation, route }) {
         CommentService.getAllCommentOfPicture(id)
             .then((response) => {
                 if (response) {
-                    loadCommentsOfPicture(response)
-                    setCommentsCount(response.length)
+                    loadCommentsOfPicture(response);
+                    setReactionsTot(response.length);
+                    if(response.length === 0){
+                        setVotingResultText('No voters yet')
+                    }else{
+                        countComment(response);
+                        voteFormula(response);
+                    }
+                    //setCommentsCount(response.length)
                 }
                 else console.log('no comments')
             })
+    }
+
+    const countComment = (arrayComment)=>{
+        let count = 0;
+        arrayComment.forEach(element => {
+            if(element.message !== null){
+                count++
+            }
+        });
+        setCommentsCount(count);
+    }
+    // voteOne
+    // :
+    // 8
+    // voteTwo
+    // :
+    // 3
+    // voteThree
+    
+    const voteFormula = (arrayVotes) =>{
+        let votersCount = 0;
+        let traitOne = 0;
+        let traitTwo = 0;
+        let traitThree = 0;
+        arrayVotes.forEach(element => {
+            if(element.voteOne && element.voteTwo && element.voteThree){
+                votersCount++;
+                traitOne += element.voteOne;
+                traitTwo += element.voteTwo;
+                traitThree += element.voteThree;
+            }
+        });
+        let result = (traitOne + traitTwo + traitThree) /  votersCount;
+        setVotingResultMoy(result);
+        if(result <= 10 ){setVotingResultText('Bad')}
+        else if((10 < result ) && (result < 15)){setVotingResultText('Somewhat')}
+        else if((15 <= result ) && (result < 20)){setVotingResultText('Medium')}
+        else if((20 <= result ) && (result < 25)){setVotingResultText('Good')}
+        else if((25 <= result ) && (result < 30)){setVotingResultText('Exellent')}
+        else {setVotingResultText('')}
     }
 
     const handleStatus = (id, status) => {
@@ -109,8 +160,11 @@ export default function PictureDetails({ navigation, route }) {
                                         :
                                         <Text style={{ color: 'red', fontSize: 14 }}> Desactivated</Text>}
                                 </Text>
-                                <Text style={style.infoLabel}>Votes :
-                                    <Text style={style.infoValue}>45 vote</Text>
+                                <Text style={style.infoLabel}>Voters :
+                                    <Text style={style.infoValue}>{reactionsTot}</Text>
+                                </Text>
+                                <Text style={style.infoLabel}>Result :
+                                    <Text style={style.infoValue}>{votingResultText}</Text>
                                 </Text>
                                 {currentPicture.status ?
                                     <Button
