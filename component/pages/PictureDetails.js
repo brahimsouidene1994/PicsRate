@@ -1,7 +1,7 @@
 import React from 'react';
 import {
     View, Text, SafeAreaView, ScrollView, Image, StyleSheet, Dimensions,
-    Pressable, Alert, ActivityIndicator
+    Pressable, Alert, ActivityIndicator, TouchableOpacity
 } from 'react-native';
 import { Button, Snackbar } from 'react-native-paper';
 
@@ -9,6 +9,7 @@ import PictureService from "../../services/picture.service";
 import CommentService from '../../services/comment.service';
 import { CredentialsContext } from '../../context/credentialsContext';
 
+import Icon from 'react-native-vector-icons/MaterialIcons';
 
 /**grid display */
 const rows = 3;
@@ -202,17 +203,12 @@ export default function PictureDetails({ navigation, route }) {
                     >
                         Notes : {commentsCount}
                     </Button>
-                    <Button
-                        style={style.btnComments}
-                        contentStyle={{ height: 50 }}
-                        labelStyle={{ color: "#000", fontSize: 16 }}
-                        mode="contained"
-                        color="#c0c0c0"
-                        disabled={btnState}
-                        onPress={() => navigation.navigate('My Modal Comments')}
-                    >
-                        Voting stats 
-                    </Button>
+                    <TouchableOpacity onPress={() => navigation.navigate('My Modal Votes')}>
+                        <View style={style.btnVotes}>
+                            <Text style={{fontSize:18, color:'#fff', fontWeight:'bold'}}>Voting result : {votingResultMoy}/30 </Text>
+                            <Icon name={'read-more'} size={30} color={'#fff'}/>
+                        </View>
+                    </TouchableOpacity>
                 </View>
                 
                 
@@ -278,7 +274,15 @@ const style = StyleSheet.create({
     },
     btnComments:{
         borderRadius:40,
-        width:width
+        width:width + 40
+    },
+    btnVotes:{
+        backgroundColor:'#8a61fa',
+        flexDirection:'row',  justifyContent:'center', alignItems:'center',
+        marginTop : 20,
+        borderRadius:50,
+        width:width + 60,
+        height:50,
     },
     snackBar:{
         position:'absolute',

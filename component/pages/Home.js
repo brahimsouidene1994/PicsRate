@@ -12,7 +12,7 @@ function Home({ navigation }) {
     React.useEffect(() => {
         if (userCredentials)
             checkPictures(userCredentials.id);
-    }, [userCredentials, pictureState]);
+    }, [pictureState]);
     const checkPictures = (id) => {
         PictureService.getPicturesByCurrentUser(id)
             .then((data) => {

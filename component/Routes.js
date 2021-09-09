@@ -20,6 +20,7 @@ import TestPage from './pages/TestPage';
 import PictureDetails from './pages/PictureDetails';
 import ModalPicture from './pages/ModalPicture';
 import ModalComments from './pages/ModalComments';
+import ModalDataVotes from './pages/ModalDataVotes';
 const theme = {
     ...DefaultTheme,
     roundness: 10,
@@ -130,7 +131,7 @@ function Routes() {
                                             </Stack.Group>
                                             <Stack.Group 
                                                 screenOptions={{ 
-                                                    title:'Comments',
+                                                    title:'Notes',
                                                     presentation: 'fullScreenModal', 
                                                     animation : "fade" 
                                                     }}
@@ -138,6 +139,18 @@ function Routes() {
                                                 <Stack.Screen 
                                                 name="My Modal Comments" 
                                                 component={ModalComments}
+                                                />
+                                            </Stack.Group>
+                                            <Stack.Group 
+                                                screenOptions={{ 
+                                                    title:'Votes Data',
+                                                    presentation: 'fullScreenModal', 
+                                                    animation : "fade" 
+                                                    }}
+                                            >
+                                                <Stack.Screen 
+                                                name="My Modal Votes" 
+                                                component={ModalDataVotes}
                                                 />
                                             </Stack.Group>
                                         </>

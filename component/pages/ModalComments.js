@@ -14,24 +14,41 @@ const Item = ({message}) => (
 
 export default function ModalComments({ navigation, route }) {
     // console.log(route)
+    const [notesArray, setNotesArray]= React.useState([]);
     const { comments } = React.useContext(CredentialsContext);
+
+    React.useEffect(()=>{
+        fillNotesArray()
+    },[])
+
     const renderItem = ({ item }) => (
-        <Item key={item._id} message={item.message} />
+        <Item key={item.id} message={item.message} />
     );
 
+    const fillNotesArray= ()=>{
+        let notes=[];
+        let count = 0;
+        comments.forEach(element => {
+            if(element.message){
+                notes.push({id:count, message:element.message})
+            }
+            count++;
+        });
+        setNotesArray(notes);
+    }
 
     return (
         <SafeAreaView style={style.container}>
             <StatusBar
                 hidden={true}
             />
-            <Text style={style.pageTitle}>Comments</Text>
+            <Text style={style.pageTitle}>Notes</Text>
             {
-                comments.length>0?
+                notesArray.length>0?
                 <FlatList
-                data={comments}
+                data={notesArray}
                 renderItem={renderItem}
-                keyExtractor={item => item._id}
+                keyExtractor={item => item.id}
                 />
                 :
                 <Text style={style.commentText}>No comments yet </Text>
