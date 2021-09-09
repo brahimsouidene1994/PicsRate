@@ -6,7 +6,9 @@ export const CredentialsContext = React.createContext();
 
 export const CredentialsProvider = (props) =>{
     const [userCredentials, setUserCredentials] = React.useState(null);
-    const [authenticated, setAuthenticated] = React.useState(false);
+    const [authenticated, setAuthenticated] = React.useState(null);
+    const [splashScreenLoader, setSplashScreenLoader] = React.useState(true);
+
     const [randomPictureToVote, setRandomPictureToVote] = React.useState(null);
     const [pictures, setPictures] = React.useState([]);
     const [comments, setComments] = React.useState([]);
@@ -16,16 +18,30 @@ export const CredentialsProvider = (props) =>{
     const [voteThree, setVoteThree] = React.useState(0);
     const [navigationState, setNavigationState] = React.useState(null); 
 
+    
+
     React.useEffect(()=>{
         checkUserCredentials();
-    },[])
+        // console.log('1',authenticated)
+        // if(authenticated != null){
+        //     console.log('2',authenticated)
+        //     handleStateSplashScreen()
+        // }
+    },[authenticated])
+
 
     const checkUserCredentials = async ()=>{
         const user = await AuthService.getCurrentUser();
         if(user){
             setAuthenticated(true);
             setUserCredentials(user);
+        }else{
+            setAuthenticated(false)
         }       
+    }
+
+    const handleStateSplashScreen = () =>{
+        setSplashScreenLoader(false);
     }
 
     const handleStates = (user, auth) =>{
@@ -73,6 +89,7 @@ export const CredentialsProvider = (props) =>{
             voteOne :voteOne,
             voteTow:voteTow,
             voteThree:voteThree,
+            splashScreenLoader : splashScreenLoader,
             handleStates : handleStates,
             fillPictures : fillPictures,
             clearPictures : clearPictures,
@@ -81,7 +98,8 @@ export const CredentialsProvider = (props) =>{
             loadCommentsOfPicture : loadCommentsOfPicture,
             choseVoteOne:choseVoteOne,
             choseVoteTwo:choseVoteTwo,
-            choseVoteThree:choseVoteThree
+            choseVoteThree:choseVoteThree,
+            handleStateSplashScreen:handleStateSplashScreen
         }}>
             {props.children}
         </CredentialsContext.Provider>

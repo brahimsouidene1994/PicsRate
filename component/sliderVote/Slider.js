@@ -1,7 +1,6 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import Slider from 'rn-range-slider';
-
 import Thumb from './Thumb';
 import Rail from './Rail';
 import RailSelected from './RailSelected';
@@ -27,15 +26,14 @@ export default function SliderVote({text, colorTitle, voteFunc}) {
         }else{
             choseVoteThree(low)
         }
-        // console.log('test',text,valueSelected);
     }, [valueSelected]);
-
-    const saveValue = () =>{
-        fnt(valueSelected)
-    }
     return (
         <View style={style.container}>
-        <Text style={{fontSize:18, textAlign:'center',marginBottom:10, color : colorTitle}}>{text}:{valueSelected}</Text>
+        <Text style={{fontSize:18, textAlign:'center',marginBottom:10, color : colorTitle}}>
+            {text}
+            <Text style={style.valueSelected}>{valueSelected}</Text> 
+            /10
+        </Text>
         <Slider    
             floatingLabel={true} 
             min={1}
@@ -58,8 +56,10 @@ const style = StyleSheet.create({
         height:80,
         flex :1,
     },
-    text:{
-        
+    valueSelected:{
+       color:'#000',
+       fontSize:22,
+       fontWeight:'bold' 
     }
 });
 

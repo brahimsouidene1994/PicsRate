@@ -12,11 +12,7 @@ function Home({ navigation }) {
     React.useEffect(() => {
         if (userCredentials)
             checkPictures(userCredentials.id);
-    }, [userCredentials]);
-    React.useEffect(() => {
-        // if (pictureState.length>0)
-        //     console.log(pictureState)
-    }, [pictureState]);
+    }, [userCredentials, pictureState]);
     const checkPictures = (id) => {
         PictureService.getPicturesByCurrentUser(id)
             .then((data) => {
@@ -43,7 +39,7 @@ function Home({ navigation }) {
             <ScrollView style={style.container} >
                 <View style={style.sectionContainer}>
                     {
-                        pictureState.length> 0?
+                        pictureState.length > 0  ?
                          picturesTests
                          :
                          <ActivityIndicator size="large" color="#257efa" animating={true} />  

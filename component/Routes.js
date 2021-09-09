@@ -41,8 +41,20 @@ function Routes() {
                     <PaperProvider theme={theme}>
                         <MenuProvider>
                             <NavigationContainer>
-                                <Stack.Navigator initialRouteName={'Login'}>
-                                    {value.authenticated ?
+                                <Stack.Navigator initialRouteName={'SplashScreen'}>
+                                    {
+                                       value.splashScreenLoader?
+                                            <Stack.Screen
+                                                name="SplashScreen"
+                                                component={SplashScreen}
+                                                options={{
+                                                    headerShown :false,
+                                                }}
+                                            />
+                                            :
+                                            null 
+                                    }
+                                    {value.authenticated?
                                         <>
                                             <Stack.Screen
                                                 name="Home"
@@ -82,7 +94,7 @@ function Routes() {
                                                 options={{
                                                     title: 'Vote',
                                                     headerStyle: {
-                                                        backgroundColor: '#257efa',
+                                                        backgroundColor: '#40494f',
                                                     },
                                                     headerTintColor: '#fff',
                                                     headerTitleStyle: {

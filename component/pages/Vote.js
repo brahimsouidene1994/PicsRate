@@ -1,6 +1,9 @@
 import React from 'react';
-import { View, Text, StyleSheet, ActivityIndicator, Image, Dimensions, Pressable, ScrollView, Alert } from 'react-native';
-import { Button, TextInput } from 'react-native-paper';
+import {
+    View, Text, StyleSheet, ActivityIndicator, Image, Dimensions, Pressable, ScrollView, Alert,
+    KeyboardAvoidingView, Keyboard, TouchableWithoutFeedback
+} from 'react-native';
+import { Button, TextInput, Snackbar } from 'react-native-paper';
 
 import { CredentialsContext } from '../../context/credentialsContext';
 import PictureService from '../../services/picture.service';
@@ -16,13 +19,18 @@ const width = Dimensions.get('screen').width;
 
 export default function Vote({ navigation }) {
 
-    const { userCredentials, randomPictureToVote, pickOneRandomPicture,   
+    const { userCredentials, randomPictureToVote, pickOneRandomPicture,
         voteOne, voteTow, voteThree } = React.useContext(CredentialsContext);
     const [message, setMessage] = React.useState('');
     const [randomPicture, setRandomPicture] = React.useState({});
     const [loading, setLoading] = React.useState(false);
     const [btnDisabled, setBtnDisabled] = React.useState(false);
     const [reload, setReload] = React.useState(false)
+
+    const [visible, setVisible] = React.useState(false);
+    const onToggleSnackBar = () => setVisible(!visible);
+    const onDismissSnackBar = () => setVisible(false);
+
     React.useEffect(() => {
         pickPictureRandomly();
     }, [reload]);
@@ -46,18 +54,12 @@ export default function Vote({ navigation }) {
             pictureId: randomPictureToVote._id,
             message: message,
             v1: voteOne,
-            v2 : voteTow,
-            v3 : voteThree
+            v2: voteTow,
+            v3: voteThree
         };
         CommentService.saveNewComment(comment)
             .then(() => {
-                Alert.alert(
-                    "Comment",
-                    "Success :)",
-                    [
-                        { text: "OK", onPress: () => setReload(!reload) }
-                    ]
-                );
+                setVisible(true);
                 setLoading(false);
                 setBtnDisabled(false);
                 setMessage('')
@@ -71,6 +73,7 @@ export default function Vote({ navigation }) {
                         randomPictureToVote ?
                             <>
                                 <Text style={style.textCategory}>{randomPictureToVote.category}</Text>
+                                <Text style={style.textContext}>{randomPictureToVote.contextPic}</Text>
                                 <Pressable
                                     onPress={() => {
                                         navigation.navigate('My Modal', randomPictureToVote.path)
@@ -99,31 +102,51 @@ export default function Vote({ navigation }) {
                 </View>
                 <View style={style.reactContainer}>
                     <SliderTraits category={randomPicture.category} />
-
-                    <TextInput
-                        label="Comment"
-                        name="comment"
-                        outlineColor={'#257efa'}
-                        mode={'outlined'}
-                        type="text"
-                        left={<TextInput.Icon name="comment" color={(isTextInputFocused) =>
-                            isTextInputFocused ? '#257efa' : '#b5b5b5'
-                        } />}
-                        value={message}
-                        onChangeText={msg => { setMessage(msg) }}
-                    />
-                    <Button
-                        style={style.btnSubmit}
-                        labelStyle={{ color: "#fff", fontSize: 18, }}
-                        onPress={() => submitComment(message)}
-                        loading={loading}
-                        disabled={btnDisabled}
-                    >
-                        save
-                        <IconFA name="vote-yea" size={20} color='#fff' />
-                    </Button>
+                    <KeyboardAvoidingView
+                        behavior={Platform.OS === "ios" || Platform.OS === "android" ? "padding" : "position"} style={{ flex: 1 }}>
+                        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+                            <View style={{ flex: 1, alignItems: 'center' }}>
+                                <TextInput
+                                    style={{ width: width - 30 }}
+                                    label="Comment"
+                                    name="comment"
+                                    outlineColor={'#257efa'}
+                                    mode={'outlined'}
+                                    type="text"
+                                    left={<TextInput.Icon name="comment" color={(isTextInputFocused) =>
+                                        isTextInputFocused ? '#257efa' : '#b5b5b5'
+                                    } />}
+                                    value={message}
+                                    onChangeText={msg => { setMessage(msg) }}
+                                />
+                                <Button
+                                    style={style.btnSubmit}
+                                    labelStyle={{ color: "#fff", fontSize: 18, }}
+                                    onPress={() => submitComment(message)}
+                                    loading={loading}
+                                    disabled={btnDisabled}
+                                >
+                                    save
+                                    <IconFA name="vote-yea" size={20} color='#fff' />
+                                </Button>
+                            </View>
+                        </TouchableWithoutFeedback>
+                    </KeyboardAvoidingView>
                 </View>
             </View>
+            <Snackbar
+                style={style.snackBar}
+                visible={visible}
+                onDismiss={onDismissSnackBar}
+                action={{
+                    label: 'ok',
+                    onPress: () => {
+                        setVisible(false);
+                        setReload(!reload);
+                    },
+                }}>
+                Voting with success
+            </Snackbar>
         </ScrollView>
     )
 }
@@ -132,7 +155,7 @@ const style = StyleSheet.create({
         flex: 1,
     },
     imageContainer: {
-        height: height,
+        height: height + 20,
         width: width,
     },
     picture: {
@@ -157,7 +180,9 @@ const style = StyleSheet.create({
         borderTopLeftRadius: 50,
     },
     btnSubmit: {
-        backgroundColor: '#257efa'
+        backgroundColor: '#257efa',
+        marginTop: 12,
+        width: width / 2
     },
     textCategory: {
         padding: 6,
@@ -166,6 +191,18 @@ const style = StyleSheet.create({
         backgroundColor: '#40494f',
         textAlign: 'center',
         color: '#fff'
+    },
+    textContext: {
+        fontSize: 14,
+        backgroundColor: '#40494f',
+        textAlign: 'center',
+        color: '#fff'
+    },
+    snackBar:{
+        position:'absolute',
+        bottom:10,
+        height:50,
+        width:Dimensions.get('screen').width-20,
     }
 });
 

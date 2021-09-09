@@ -72,14 +72,6 @@ export default function PictureDetails({ navigation, route }) {
         });
         setCommentsCount(count);
     }
-    // voteOne
-    // :
-    // 8
-    // voteTwo
-    // :
-    // 3
-    // voteThree
-    
     const voteFormula = (arrayVotes) =>{
         let votersCount = 0;
         let traitOne = 0;
@@ -208,7 +200,18 @@ export default function PictureDetails({ navigation, route }) {
                         disabled={btnState}
                         onPress={() => navigation.navigate('My Modal Comments')}
                     >
-                        Comments : {commentsCount}
+                        Notes : {commentsCount}
+                    </Button>
+                    <Button
+                        style={style.btnComments}
+                        contentStyle={{ height: 50 }}
+                        labelStyle={{ color: "#000", fontSize: 16 }}
+                        mode="contained"
+                        color="#c0c0c0"
+                        disabled={btnState}
+                        onPress={() => navigation.navigate('My Modal Comments')}
+                    >
+                        Voting stats 
                     </Button>
                 </View>
                 
