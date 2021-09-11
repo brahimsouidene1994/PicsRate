@@ -1,7 +1,6 @@
 import React from 'react';
 
 import AuthService from "../services/auth.service";
-import PictureService from '../services/picture.service';
 export const CredentialsContext = React.createContext();
 
 export const CredentialsProvider = (props) =>{

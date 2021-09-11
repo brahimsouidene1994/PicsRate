@@ -203,7 +203,13 @@ export default function PictureDetails({ navigation, route }) {
                     >
                         Notes : {commentsCount}
                     </Button>
-                    <TouchableOpacity onPress={() => navigation.navigate('My Modal Votes')}>
+                    <TouchableOpacity 
+                        onPress={() => 
+                            navigation.navigate('My Modal Votes',{
+                                picture:currentPicture, 
+                                moyenne: votingResultMoy , 
+                                resultText: votingResultText })}
+                        >
                         <View style={style.btnVotes}>
                             <Text style={{fontSize:18, color:'#fff', fontWeight:'bold'}}>Voting result : {votingResultMoy}/30 </Text>
                             <Icon name={'read-more'} size={30} color={'#fff'}/>
