@@ -21,7 +21,7 @@ const saveNewComment = async (commentData) => {
 
 const getAllCommentOfPicture= async (idPicture) => {
     let headers = await authHeader();
-    let commentsOfCurrentPicture;
+    let commentsOfCurrentPicture= [];
     try {
         await axios.post(API_URL + "getAllCommentByPicture",
             {

@@ -5,7 +5,7 @@ const API_URL = "http://192.168.1.15:3000/api/picture/";
 
 const getPicturesByCurrentUser = async (idUser) => {
     let headers = await authHeader();
-    let picturesOfCurrentUser;
+    let picturesOfCurrentUser = [];
     try {
         await axios.post(API_URL + "getAllByUser",
             {
@@ -14,7 +14,8 @@ const getPicturesByCurrentUser = async (idUser) => {
             },
         )
             .then(response => {
-                picturesOfCurrentUser = response.data;
+                if(response.data)
+                    picturesOfCurrentUser = response.data;
             });
     } catch (error) {
         console.warn(error);

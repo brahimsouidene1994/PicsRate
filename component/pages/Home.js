@@ -10,9 +10,8 @@ function Home({ navigation }) {
 
     const [loading, setLoading] = React.useState(true);
     React.useEffect(() => {
-        if (userCredentials)
             checkPictures(userCredentials.id);
-    }, [pictureState]);
+    }, [pictures]);
     const checkPictures = (id) => {
         PictureService.getPicturesByCurrentUser(id)
             .then((data) => {
