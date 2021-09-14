@@ -10,9 +10,10 @@ import {
     Dimensions,
     TouchableOpacity,
     Pressable,
-    Alert
+    Alert,
+    Platform
 } from 'react-native';
-import { TextInput, Button } from 'react-native-paper';
+import { TextInput, Button, Switch } from 'react-native-paper';
 import { launchCamera, launchImageLibrary } from 'react-native-image-picker';
 import PictureService from '../../services/picture.service';
 import IconIonic from 'react-native-vector-icons/Ionicons';
@@ -26,6 +27,10 @@ import {
     withNextInputAutoFocusForm,
     withNextInputAutoFocusInput
 } from "react-native-formik";
+
+import { CATEGORY } from '../Category';
+import { TRAIT } from '../Traits';
+import { COLORS } from '../Colors';
 
 const MyInput = compose(
     handleTextInput,
@@ -41,28 +46,28 @@ const width = Dimensions.get('screen').width / 1.5;
 const height = (Dimensions.get('screen').height / 3) - 20;
 
 const CategoryText = ({category}) =>{
-    if(category === 'Social'){
+    if(category === CATEGORY.SOCIAL){
         return(
             <Text style={styles.textDescription}>Traits: 
-                <Text style={{color:'#eb4034'}}>Confident</Text>, 
-                <Text style={{color:'#1cc41a'}}>Authentic</Text>, 
-                <Text style={{color:'#1a7ac4'}}>Fun</Text>
+                <Text style={{color: COLORS.RED}}>{TRAIT.CONFIDENT}</Text>, 
+                <Text style={{color: COLORS.GREEN}}>{TRAIT.AUTHENTIC}</Text>, 
+                <Text style={{color: COLORS.BLUE}}>{TRAIT.FUN}</Text>
             </Text>
         )
-    }else if(category === 'Business'){
+    }else if(category === CATEGORY.BUSINESS){
         return(
             <Text style={styles.textDescription}>Traits: 
-                <Text style={{color:'#1cc41a'}}>Competent</Text>, 
-                <Text style={{color:'#1a7ac4'}}>Likable</Text>, 
-                <Text style={{color:'#eb4034'}}>Influential</Text>
+                <Text style={{color:COLORS.GREEN}}>{TRAIT.COMPETENT}</Text>, 
+                <Text style={{color:COLORS.BLUE}}>{TRAIT.LIKEBLE}</Text>, 
+                <Text style={{color:COLORS.RED}}>{TRAIT.INFLUENTIAL}</Text>
             </Text>
         )
-    }else if(category === 'Dating'){
+    }else if(category === CATEGORY.DATING){
         return(
             <Text style={styles.textDescription}>Traits: 
-                <Text style={{color:'#1a7ac4'}}>Smart</Text>, 
-                <Text style={{color:'#1cc41a'}}>Trustworthy</Text>, 
-                <Text style={{color:'#eb4034'}}>Attractive</Text>
+                <Text style={{color:COLORS.BLUE}}>{TRAIT.SMART}</Text>, 
+                <Text style={{color:COLORS.GREEN}}>{TRAIT.TRUSTWORTHY}</Text>, 
+                <Text style={{color:COLORS.RED}}>{TRAIT.ATTRACTIVE}</Text>
             </Text>
         )      
     }else{
@@ -76,11 +81,11 @@ export default function AddPicture({ navigation }) {
 
     const { userCredentials } = React.useContext(CredentialsContext);
 
-    const [selectedPricture, setSelectedPricture] = React.useState();
+    const [selectedPricture, setSelectedPricture] = React.useState(null);
 
     const [context, setContext] = React.useState('');
     const [category, setCategory] = React.useState('');
-
+    const [commentStatusSwitcher, setCommentStatusSwitcher] = React.useState(false);
     const [btnDisabled, setBtnDisabled] = React.useState(false);
     const [loading, setLoading] = React.useState(false);
 
@@ -163,18 +168,24 @@ export default function AddPicture({ navigation }) {
             />
         }
     }
+    const resetFields = () =>{
+        setCategory('');
+        setContext('');
+        setSelectedPricture(null);
+    }
 
     const savePicture = () =>{
         setBtnDisabled(true);
         setLoading(true);
         formdata.append("photo", {
-                        uri:  Platform.OS === "android" ? 
+                        uri:  Platform.OS === "android"  || Platform.OS === "ios" || Platform.OS === "windows" ? 
                             selectedPricture.uri 
                             : 
                             selectedPricture.uri.replace("file://", ""),
                         name: selectedPricture.fileName, type: selectedPricture.type});
         formdata.append('category',category);
         formdata.append('context',context);
+        formdata.append('commentsStatus', commentStatusSwitcher);
         formdata.append('userId',userCredentials.id);
         PictureService.saveNewPicture(formdata)
             .then((response) => {
@@ -182,15 +193,16 @@ export default function AddPicture({ navigation }) {
                     "New Picture Test",
                     "Your new picture is ready :)",
                     [
-                    { text: "OK", onPress : ()=>navigation.navigate('Picture Details',response)}
+                    { text: "OK", onPress : ()=>{
+                        resetFields();
+                        navigation.navigate('Picture Details',response)
+                    }}
                     ]
                 );
                 setLoading(false);
             })
             .catch((error) => Alert.alert(error))
     }
-
-
     return (
         <SafeAreaView style={styles.safeAreaView}>
             <ScrollView style={styles.scrollView}>
@@ -209,33 +221,33 @@ export default function AddPicture({ navigation }) {
                                         <View style={{flexDirection:'row', justifyContent:'center'}}>
                                             <Button
                                                 style={styles.btnSocial}
-                                                color={category === 'Social'?'#257efa':'#c0c0c0'}
+                                                color={category === CATEGORY.SOCIAL?COLORS.BLUE:COLORS.GRAYLIGHT}
                                                 contentStyle={{ height: 50 }}
-                                                labelStyle={{ color: "white", fontSize: 16 }}
+                                                labelStyle={{ color: COLORS.WHITE, fontSize: 16 }}
                                                 mode="contained"
-                                                onPress={() => setCategory('Social')}
+                                                onPress={() => setCategory(CATEGORY.SOCIAL)}
                                             >
-                                                Social
+                                                {CATEGORY.SOCIAL}
                                             </Button>
                                             <Button
                                                 style={styles.btnBusiness}
-                                                color={category === 'Business'?'#257efa':'#c0c0c0'}
+                                                color={category === CATEGORY.BUSINESS ?COLORS.BLUE:COLORS.GRAYLIGHT}
                                                 contentStyle={{ height: 50 }}
-                                                labelStyle={{ color: "white", fontSize: 16 }}
+                                                labelStyle={{ color: COLORS.WHITE, fontSize: 16 }}
                                                 mode="contained"
-                                                onPress={() => setCategory('Business')}                           
+                                                onPress={() => setCategory(CATEGORY.BUSINESS)}                           
                                             >
-                                                Business
+                                                {CATEGORY.BUSINESS}
                                             </Button>
                                             <Button
                                                 style={styles.btnDating}
-                                                color={category === 'Dating'?'#257efa':'#c0c0c0'}
+                                                color={category === CATEGORY.DATING ?COLORS.BLUE:COLORS.GRAYLIGHT}
                                                 contentStyle={{ height: 50 }}
-                                                labelStyle={{ color: "white", fontSize: 16 }}
+                                                labelStyle={{ color: COLORS.WHITE, fontSize: 16 }}
                                                 mode="contained"
-                                                onPress={() => setCategory('Dating')}
+                                                onPress={() => setCategory(CATEGORY.DATING)}
                                             >
-                                                Dating
+                                                {CATEGORY.DATING}
                                             </Button>
                                         </View>
                                         <View>
@@ -244,7 +256,7 @@ export default function AddPicture({ navigation }) {
                                         <MyInput
                                             label="Title"
                                             name="context"
-                                            outlineColor={'#257efa'}
+                                            outlineColor={COLORS.BLUE}
                                             mode={'outlined'}
                                             type="text"
                                             style={styles.input}
@@ -255,20 +267,30 @@ export default function AddPicture({ navigation }) {
                                         (<Text style={styles.errorText}>{props.errors.email} </Text>)
                                         : null
                                         }
+                                        <View style={styles.switcherContainer}>
+                                            <Text style={{fontSize:17}}>Activate comments ?</Text>
+                                            <Switch 
+                                                value={commentStatusSwitcher} 
+                                                onValueChange={()=>setCommentStatusSwitcher(!commentStatusSwitcher)} 
+                                                color={COLORS.BLUE}
+                                                style={{width:100}}
+                                            />
+                                            {commentStatusSwitcher?<Text style={{fontSize:17}}>On</Text>:<Text style={{fontSize:17}}>Off</Text>}
+                                        </View>
                                         <View style={styles.inputImageSection}>
                                             <View style={styles.ImageSections}>
                                                 {renderFileUri()}
                                             </View>
                                             <View style={styles.btnParentSection}>
                                                 <TouchableOpacity onPress={() => launchCameraFn()} style={styles.btnSection}  >
-                                                    <IconIonic name="camera" size={45} color="#257efa" />
+                                                    <IconIonic name="camera" size={45} color={COLORS.BLUE} />
                                                 </TouchableOpacity>
                                                 <TouchableOpacity onPress={() => launchImageLibraryFn()} style={styles.btnSection}  >
-                                                    <IconIonic name="images" size={40} color="#f5c236" />
+                                                    <IconIonic name="images" size={40} color={COLORS.YELLOW} />
                                                 </TouchableOpacity>
                                                 {selectedPricture ?
                                                     <TouchableOpacity onPress={() => setSelectedPricture(null)} style={styles.btnSection}  >
-                                                        <IconAnt name="delete" size={40} color="#ffbaad" />
+                                                        <IconAnt name="delete" size={40} color={COLORS.COOLRED} />
                                                     </TouchableOpacity>
                                                     :
                                                     null
@@ -278,9 +300,9 @@ export default function AddPicture({ navigation }) {
                                         <Button
                                             style={styles.btnSave}
                                             contentStyle={{ height: 50 }}
-                                            labelStyle={{ color: "white", fontSize: 18, fontWeight: 'bold' }}
+                                            labelStyle={{ color: COLORS.WHITE, fontSize: 18, fontWeight: 'bold' }}
                                             mode="contained"
-                                            color="#257efa"
+                                            color={COLORS.BLUE}
                                             onPress={() => savePicture()}
                                             loading={loading}
                                             disabled={
@@ -314,7 +336,7 @@ const styles = StyleSheet.create({
     pageTitle: {
         margin: 20,
         fontSize: 28,
-        color: "#257efa",
+        color: COLORS.BLUE,
         fontWeight: 'bold',
         textAlign: 'center'
     },
@@ -331,6 +353,12 @@ const styles = StyleSheet.create({
     input: {
         marginTop: 8,
         width: width + 40
+    },
+    switcherContainer:{
+        marginTop:15,
+        padding : 10, 
+        flexDirection:'row', 
+        justifyContent:'space-around'
     },
     inputImageSection: {
         padding: 20,

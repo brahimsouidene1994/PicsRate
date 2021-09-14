@@ -38,9 +38,9 @@ function Home({ navigation }) {
             <ScrollView style={style.container} >
                 <View style={style.sectionContainer}>
                     {
-                        pictureState.length > 0  ?
+                        pictureState.length > 0  &&
                          picturesTests
-                         :
+                         ||
                          <ActivityIndicator size="large" color="#257efa" animating={true} />  
                     }            
                 </View>

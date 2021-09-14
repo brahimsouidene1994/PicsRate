@@ -4,6 +4,8 @@ import { View, Text, StyleSheet, Dimensions, SafeAreaView, ScrollView, StatusBar
 import { CredentialsContext } from '../../context/credentialsContext';
 import DataPresentation from './DataPresentation';
 
+import { TRAIT } from '../Traits';
+import { CATEGORY } from '../Category';
 const width = (Dimensions.get('screen').width);
 const height = (Dimensions.get('screen').height);
 
@@ -39,28 +41,28 @@ export default function ModalDataVotes({ navigation, route }) {
     }
 
     function renderTraitsStat() {
-        if (category === 'Social') {
+        if (category === CATEGORY.SOCIAL) {
             return (
                 <View style={{ flex: 1 }}>
-                    <DataPresentation trait={'Confident : '} color={'#eb4034'} tab={traitOneArray} />
-                    <DataPresentation trait={'Authentic : '} color={'#1cc41a'} tab={traitTwoArray} />
-                    <DataPresentation trait={'Fun : '} color={'#1a7ac4'} tab={traitThreeArray} />
+                    <DataPresentation trait={TRAIT.CONFIDENT} color={'#eb4034'} tab={traitOneArray} />
+                    <DataPresentation trait={TRAIT.AUTHENTIC} color={'#1cc41a'} tab={traitTwoArray} />
+                    <DataPresentation trait={TRAIT.FUN} color={'#1a7ac4'} tab={traitThreeArray} />
                 </View>
             )
-        } else if (category === 'Business') {
+        } else if (category === CATEGORY.BUSINESS) {
             return (
                 <View style={{ flex: 1 }}>
-                    <DataPresentation trait={'Competent : '} color={'#1cc41a'} tab={traitOneArray} />
-                    <DataPresentation trait={'Likable : '} color={'#eb4034'} tab={traitTwoArray} />
-                    <DataPresentation trait={'Influential : '} color={'#1a7ac4'} tab={traitThreeArray} />
+                    <DataPresentation trait={TRAIT.COMPETENT} color={'#1cc41a'} tab={traitOneArray} />
+                    <DataPresentation trait={TRAIT.LIKEBLE} color={'#eb4034'} tab={traitTwoArray} />
+                    <DataPresentation trait={TRAIT.INFLUENTIAL} color={'#1a7ac4'} tab={traitThreeArray} />
                 </View>
             )
-        } else if (category === 'Dating') {
+        } else if (category === CATEGORY.DATING) {
             return (
                 <View style={{ flex: 1 }}>
-                    <DataPresentation trait={'Smart : '} color={'#1a7ac4'} tab={traitOneArray} />
-                    <DataPresentation trait={'Trustworthy : '} color={'#1cc41a'} tab={traitTwoArray} />
-                    <DataPresentation trait={'Attractive : '} color={'#eb4034'} tab={traitThreeArray} />
+                    <DataPresentation trait={TRAIT.SMART} color={'#1a7ac4'} tab={traitOneArray} />
+                    <DataPresentation trait={TRAIT.TRUSTWORTHY} color={'#1cc41a'} tab={traitTwoArray} />
+                    <DataPresentation trait={TRAIT.ATTRACTIVE} color={'#eb4034'} tab={traitThreeArray} />
                 </View>
             )
         } else {

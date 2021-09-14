@@ -49,6 +49,8 @@ export default function Vote({ navigation }) {
     const submitComment = () => {
         setLoading(true);
         setBtnDisabled(true);
+        if(typeof message===''){setMessage(null)}
+        
         let comment = {
             userId: userCredentials.id,
             pictureId: randomPictureToVote._id,
@@ -106,19 +108,23 @@ export default function Vote({ navigation }) {
                         behavior={Platform.OS === "ios" || Platform.OS === "android" ? "padding" : "position"} style={{ flex: 1 }}>
                         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
                             <View style={{ flex: 1, alignItems: 'center' }}>
-                                <TextInput
-                                    style={{ width: width - 30 }}
-                                    label="Comment"
-                                    name="comment"
-                                    outlineColor={'#257efa'}
-                                    mode={'outlined'}
-                                    type="text"
-                                    left={<TextInput.Icon name="comment" color={(isTextInputFocused) =>
-                                        isTextInputFocused ? '#257efa' : '#b5b5b5'
-                                    } />}
-                                    value={message}
-                                    onChangeText={msg => { setMessage(msg) }}
-                                />
+                                {randomPicture.commentsStatus?
+                                    <TextInput
+                                        style={{ width: width - 30 }}
+                                        label="Comment"
+                                        name="comment"
+                                        outlineColor={'#257efa'}
+                                        mode={'outlined'}
+                                        type="text"
+                                        left={<TextInput.Icon name="comment" color={(isTextInputFocused) =>
+                                            isTextInputFocused ? '#257efa' : '#b5b5b5'
+                                        } />}
+                                        value={message}
+                                        onChangeText={msg => { setMessage(msg) }}
+                                    />
+                                    :
+                                    null                                
+                                }
                                 <Button
                                     style={style.btnSubmit}
                                     labelStyle={{ color: "#fff", fontSize: 18, }}

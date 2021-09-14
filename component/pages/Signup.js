@@ -1,12 +1,14 @@
 import React from 'react';
-import { View, Text, ScrollView, StyleSheet, KeyboardAvoidingView, ActivityIndicator, Alert
-            , TouchableWithoutFeedback, Keyboard} from 'react-native';
+import {
+    View, Text, ScrollView, StyleSheet, KeyboardAvoidingView, ActivityIndicator, Alert
+    , TouchableWithoutFeedback, Keyboard
+} from 'react-native';
 import {
     GoogleSignin,
     GoogleSigninButton,
     statusCodes,
 } from '@react-native-google-signin/google-signin';
-import { TextInput, Button, RadioButton  } from 'react-native-paper';
+import { TextInput, Button, RadioButton, Checkbox } from 'react-native-paper';
 
 import { CredentialsContext } from '../../context/credentialsContext';
 
@@ -45,24 +47,17 @@ function Signup() {
     const [email, setEmail] = React.useState('');
     const [password, setPassword] = React.useState('');
     const [message, setMessage] = React.useState("");
-
+    const [checkedContrat, setCheckedContrat] = React.useState(false);
     const [checkedBtnSexe, setCheckedBtnSexe] = React.useState("MALE");
     const [eye, setEye] = React.useState('eye-off');
     const [visiblePwd, setVisiblePwd] = React.useState(false);
 
     const [userGoogleInfo, setUserGoogleInfo] = React.useState({});
 
-
-    const testInputs = (email, password) => {
-        if (!email || !password) return true
-        else return false
-    }
-
-
     //sign up 
     const createUser = (email, password, sexe) => {
         setLoadingIndicator(true);
-        AuthService.register(email, password, sexe ).then(
+        AuthService.register(email, password, sexe).then(
             (userInfo) => {
                 setLoadingIndicator(false);
                 handleStates(userInfo, true);
@@ -121,9 +116,9 @@ function Signup() {
         }
     }
     return (
-        <ScrollView 
-        keyboardShouldPersistTaps='handled'
-        style={style.container}>
+        <ScrollView
+            keyboardShouldPersistTaps='handled'
+            style={style.container}>
             <Text style={style.title}>Sign up</Text>
             {/* <GoogleSigninButton
                 style={{ height: 60 }}
@@ -138,101 +133,110 @@ function Signup() {
                 {/* <Text style={style.orText}>or</Text> */}
                 {/* <ActivityIndicator size="large" color="#257efa" animating={loadingIndicator} /> */}
                 <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-                    
-                <Formik
-                    onSubmit={values => console.log(values)}
-                    validationSchema={validationSchema}
-                    style={style.formContainer}
-                >{(props) => {
-                    return (
 
-                        <Form>
-                            <MyInput
-                                label="Email"
-                                name="email"
-                                outlineColor={'#257efa'}
-                                mode={'outlined'}
-                                type="email"
-                                left={<TextInput.Icon name="email" color={(isTextInputFocused) =>
-                                    isTextInputFocused ? '#257efa' : '#b5b5b5'
-                                } />}
-                                style={style.input}
-                                value={email}
-                                onChangeText={email => setEmail(email)}
-                            />
-                            {props.touched.email && props.errors.email ?
-                                (<Text style={style.errorText}>{props.errors.email} </Text>)
-                                : null
-                            }
-                            <MyInput
-                                        label="Password"
-                                        name="password"
-                                        outlineColor={'#257efa'}
-                                        mode={'outlined'}
-                                        type="text"
-                                        left={<TextInput.Icon name="lock" color={(isTextInputFocused) =>
-                                            isTextInputFocused ? '#257efa' : '#b5b5b5'
-                                        } />}
-                                        right={
-                                            <TextInput.Icon name={eye}
-                                                color={(isTextInputFocused) =>
-                                                    isTextInputFocused ? '#257efa' : '#b5b5b5'
-                                                }
-                                                onPress={() => handleVisibilityPassword()}
-                                            />
-                                        }
-                                        style={style.input}
-                                        secureTextEntry={visiblePwd}
-                                        value={password}
-                                        onChangeText={password => setPassword(password)}
-                                    />
-                            {props.touched.password && props.errors.password ?
-                                (<Text style={style.errorText}>{props.errors.password} </Text>)
-                                : null
-                            }
-                            <View style={{flexDirection:'row', justifyContent:'space-around'}}>
-                                <View style={{flexDirection:'row', alignItems:"center", padding:10}}>
-                                    <RadioButton
-                                        color={'#257efa'}
-                                        uncheckedColor={'#257efa'}
-                                        value="MALE"
-                                        status={ checkedBtnSexe === 'MALE' ? 'checked' : 'unchecked' }
-                                        onPress={() => setCheckedBtnSexe('MALE')}
-                                    />
-                                    <Text>Male</Text>
-                                </View>
-                                <View style={{flexDirection:'row', alignItems:"center"}}>
-                                    <RadioButton
-                                        color={'#257efa'}
-                                        uncheckedColor={'#257efa'}
-                                        value="FEMALE"
-                                        status={ checkedBtnSexe === 'FEMALE' ? 'checked' : 'unchecked' }
-                                        onPress={() => setCheckedBtnSexe('FEMALE')}
-                                    />
-                                    <Text>Female</Text>
-                                </View>
-                            </View>
-                            <Button
-                                style={style.btn}
-                                contentStyle={{ height: 50 }}
-                                labelStyle={{ color: "white", fontSize: 18, fontWeight: 'bold' }}
-                                mode="contained"
-                                color="#257efa"
-                                onPress={() => createUser(email, password, checkedBtnSexe)}
-                                disabled={
-                                    props.errors.email || props.errors.password ?
-                                        true
-                                        :
-                                        false
+                    <Formik
+                        onSubmit={values => console.log(values)}
+                        validationSchema={validationSchema}
+                        style={style.formContainer}
+                    >{(props) => {
+                        return (
+
+                            <Form>
+                                <MyInput
+                                    label="Email"
+                                    name="email"
+                                    outlineColor={'#257efa'}
+                                    mode={'outlined'}
+                                    type="email"
+                                    left={<TextInput.Icon name="email" color={(isTextInputFocused) =>
+                                        isTextInputFocused ? '#257efa' : '#b5b5b5'
+                                    } />}
+                                    style={style.input}
+                                    value={email}
+                                    onChangeText={email => setEmail(email)}
+                                />
+                                {props.touched.email && props.errors.email ?
+                                    (<Text style={style.errorText}>{props.errors.email} </Text>)
+                                    : null
                                 }
-                                loading={loadingIndicator}
-                            >
-                                sign up
-                            </Button>
-                        </Form>
-                    )
-                }}
-                </Formik>
+                                <MyInput
+                                    label="Password"
+                                    name="password"
+                                    outlineColor={'#257efa'}
+                                    mode={'outlined'}
+                                    type="text"
+                                    left={<TextInput.Icon name="lock" color={(isTextInputFocused) =>
+                                        isTextInputFocused ? '#257efa' : '#b5b5b5'
+                                    } />}
+                                    right={
+                                        <TextInput.Icon name={eye}
+                                            color={(isTextInputFocused) =>
+                                                isTextInputFocused ? '#257efa' : '#b5b5b5'
+                                            }
+                                            onPress={() => handleVisibilityPassword()}
+                                        />
+                                    }
+                                    style={style.input}
+                                    secureTextEntry={visiblePwd}
+                                    value={password}
+                                    onChangeText={password => setPassword(password)}
+                                />
+                                {props.touched.password && props.errors.password ?
+                                    (<Text style={style.errorText}>{props.errors.password} </Text>)
+                                    : null
+                                }
+                                <View style={{ flexDirection: 'row', justifyContent: 'space-around' }}>
+                                    <View style={{ flexDirection: 'row', alignItems: "center", padding: 10 }}>
+                                        <RadioButton
+                                            color={'#257efa'}
+                                            uncheckedColor={'#257efa'}
+                                            value="MALE"
+                                            status={checkedBtnSexe === 'MALE' ? 'checked' : 'unchecked'}
+                                            onPress={() => setCheckedBtnSexe('MALE')}
+                                        />
+                                        <Text>Male</Text>
+                                    </View>
+                                    <View style={{ flexDirection: 'row', alignItems: "center" }}>
+                                        <RadioButton
+                                            color={'#257efa'}
+                                            uncheckedColor={'#257efa'}
+                                            value="FEMALE"
+                                            status={checkedBtnSexe === 'FEMALE' ? 'checked' : 'unchecked'}
+                                            onPress={() => setCheckedBtnSexe('FEMALE')}
+                                        />
+                                        <Text>Female</Text>
+                                    </View>
+                                </View>
+                                <View style={{ padding:15,flexDirection: 'row', alignItems: "center" }}>
+                                    <Checkbox
+                                        status={checkedContrat ? 'checked' : 'unchecked'}
+                                        onPress={() => {
+                                            setCheckedContrat(!checkedContrat);
+                                        }}
+                                    />
+                                    <Text>Accept contrat</Text>
+                                </View>
+                                <Button
+                                    style={style.btn}
+                                    contentStyle={{ height: 50 }}
+                                    labelStyle={{ color: "white", fontSize: 18, fontWeight: 'bold' }}
+                                    mode="contained"
+                                    color="#257efa"
+                                    onPress={() => createUser(email, password, checkedBtnSexe)}
+                                    disabled={
+                                        props.errors.email || props.errors.password || !checkedContrat?
+                                            true
+                                            :
+                                            false
+                                    }
+                                    loading={loadingIndicator}
+                                >
+                                    sign up
+                                </Button>
+                            </Form>
+                        )
+                    }}
+                    </Formik>
                 </TouchableWithoutFeedback>
             </KeyboardAvoidingView>
         </ScrollView>

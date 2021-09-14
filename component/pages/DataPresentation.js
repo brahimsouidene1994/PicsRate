@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Text, StyleSheet, Dimensions } from 'react-native';
 
-
+import {COLORS} from '../Colors';
 const width = (Dimensions.get('screen').width);
 const height = (Dimensions.get('screen').height);
 export default function DataPresentation(props) {
@@ -36,15 +36,15 @@ export default function DataPresentation(props) {
             <View style={style.dataContainer}>
                 <Text style={style.dataContainerValue}>
                     {countRangeOne}
-                    <Text style={{fontSize:14, color:'#a2a8a3'}}>{' Votes'}</Text>
+                    <Text style={{fontSize:14, color:COLORS.GRAYDARK}}>{' Votes'}</Text>
                 </Text>
                 <Text style={style.dataContainerValue}>
                     {countRangeTow}
-                    <Text style={{fontSize:14, color:'#a2a8a3'}}>{' Votes'}</Text>
+                    <Text style={{fontSize:14, color:COLORS.GRAYDARK}}>{' Votes'}</Text>
                 </Text>
                 <Text style={style.dataContainerValue}>
                     {countRangeThree}
-                    <Text style={{fontSize:14, color:'#a2a8a3'}}>{' Votes'}</Text>
+                    <Text style={{fontSize:14, color:COLORS.GRAYDARK}}>{' Votes'}</Text>
                 </Text>
             </View>
             <View style={style.underDataContainer}>
@@ -92,7 +92,7 @@ const style = StyleSheet.create({
         borderTopColor: '#a2a8a3',
         borderTopWidth: 1,
         paddingTop:5,
-        color:'#a2a8a3'
+        color: COLORS.GRAYDARK
     }
 
 });

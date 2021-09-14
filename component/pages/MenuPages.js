@@ -9,7 +9,6 @@ import {
 import IconIonic from 'react-native-vector-icons/Ionicons';
 import IconMat from 'react-native-vector-icons/MaterialIcons';
 import IconEntypo from 'react-native-vector-icons/Entypo';
-import IconFA from 'react-native-vector-icons/FontAwesome5';
 import AuthService from "../../services/auth.service";
 import {CredentialsContext} from '../../context/credentialsContext';
 

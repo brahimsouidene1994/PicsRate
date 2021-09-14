@@ -61,7 +61,7 @@ function Routes() {
                                                 name="Home"
                                                 component={Home}
                                                 options={{
-                                                    title: 'Home',
+                                                    title: 'My pictures',
                                                     headerLeft: null,
                                                     headerStyle: {
                                                         backgroundColor: '#257efa',

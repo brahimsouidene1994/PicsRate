@@ -15,7 +15,7 @@ const height = (Dimensions.get('screen').height / rows);
 /**grid display */
 
 function Picture(props) {
-    const { _id, contextPic, createdAt, path, status } = props.pic;
+    const { _id, contextPic, createdAt, path, status , voters} = props.pic;
     const [loading , setLoading]= React.useState(false);
 
     const deletePicture = ()=>{
@@ -63,7 +63,7 @@ function Picture(props) {
                 <Card.Cover source={{ uri: path }} style={style.cardImage} />
                 <Card.Actions style={{backgroundColor:'transparent', justifyContent:'space-between'}}>
                    <Text style={style.cardBottomText}>{contextPic}</Text>
-                   <Text style={style.cardBottomText}>45V</Text>
+                   <Text style={style.cardBottomText}>{voters.length}V</Text>
                    {!status?
                         <Icon name="delete-outline" size={25} onPress={()=>{
                             Alert.alert(

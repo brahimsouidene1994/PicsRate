@@ -36,7 +36,6 @@ function Login({ navigation }) {
     const [loadingIndicator, setLoadingIndicator] = React.useState(false);
     const [email, setEmail] = React.useState('');
     const [password, setPassword] = React.useState('');
-    const [message, setMessage] = React.useState("");
 
     const [eye, setEye] = React.useState('eye-off');
     const [visiblePwd, setVisiblePwd] = React.useState(true);
@@ -56,8 +55,7 @@ function Login({ navigation }) {
                     error.message ||
                     error.toString();
                 setLoadingIndicator(false);
-                setMessage(resMessage);
-                Alert.alert(message);
+                Alert.alert(resMessage);
             }
         );
     };

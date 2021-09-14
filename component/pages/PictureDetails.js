@@ -22,7 +22,7 @@ export default function PictureDetails({ navigation, route }) {
     const [currentPicture, setCurrentPicture] = React.useState(null);
     const [btnState, setBtnState] = React.useState(false);
     const [commentsCount, setCommentsCount] = React.useState(0);
-
+    const [commentsStatus, setcommentsStatus] = React.useState(false);
     const [votingResultText, setVotingResultText] = React.useState('');
     const [votingResultMoy, setVotingResultMoy] = React.useState(0);
     const [reactionsTot, setReactionsTot] = React.useState(0);
@@ -44,7 +44,8 @@ export default function PictureDetails({ navigation, route }) {
         loadCommentsOfPicture(null)
         PictureService.getOnePicture(id)
             .then(response => {
-                setCurrentPicture(response)
+                setCurrentPicture(response);
+                setcommentsStatus(response.commentsStatus);
             })
             .catch((error) => Alert.alert(error));
         CommentService.getAllCommentOfPicture(id)
@@ -52,9 +53,9 @@ export default function PictureDetails({ navigation, route }) {
                 if (response) {
                     loadCommentsOfPicture(response);
                     setReactionsTot(response.length);
-                    if(response.length === 0){
+                    if (response.length === 0) {
                         setVotingResultText('No voters yet')
-                    }else{
+                    } else {
                         countComment(response);
                         voteFormula(response);
                     }
@@ -64,36 +65,36 @@ export default function PictureDetails({ navigation, route }) {
             })
     }
 
-    const countComment = (arrayComment)=>{
+    const countComment = (arrayComment) => {
         let count = 0;
         arrayComment.forEach(element => {
-            if(element.message !== null){
+            if (element.message !== null) {
                 count++
             }
         });
         setCommentsCount(count);
     }
-    const voteFormula = (arrayVotes) =>{
+    const voteFormula = (arrayVotes) => {
         let votersCount = 0;
         let traitOne = 0;
         let traitTwo = 0;
         let traitThree = 0;
         arrayVotes.forEach(element => {
-            if(element.voteOne && element.voteTwo && element.voteThree){
+            if (element.voteOne && element.voteTwo && element.voteThree) {
                 votersCount++;
                 traitOne += element.voteOne;
                 traitTwo += element.voteTwo;
                 traitThree += element.voteThree;
             }
         });
-        let result = (traitOne + traitTwo + traitThree) /  votersCount;
+        let result = (traitOne + traitTwo + traitThree) / votersCount;
         setVotingResultMoy(result);
-        if(result <= 10 ){setVotingResultText('Bad')}
-        else if((10 < result ) && (result < 15)){setVotingResultText('Somewhat')}
-        else if((15 <= result ) && (result < 20)){setVotingResultText('Medium')}
-        else if((20 <= result ) && (result < 25)){setVotingResultText('Good')}
-        else if((25 <= result ) && (result < 30)){setVotingResultText('Exellent')}
-        else {setVotingResultText('')}
+        if (result <= 10) { setVotingResultText('Bad') }
+        else if ((10 < result) && (result < 15)) { setVotingResultText('Somewhat') }
+        else if ((15 <= result) && (result < 20)) { setVotingResultText('Medium') }
+        else if ((20 <= result) && (result < 25)) { setVotingResultText('Good') }
+        else if ((25 <= result) && (result < 30)) { setVotingResultText('Exellent') }
+        else { setVotingResultText('') }
     }
 
     const handleStatus = (id, status) => {
@@ -185,13 +186,13 @@ export default function PictureDetails({ navigation, route }) {
                                     >
                                         start test
                                     </Button>
-                                    
+
                                 }
                             </View>
                         </View>
                     }
                 </View>
-                <View style={{ flex: 1, padding:10, alignItems:'center'}}>
+                <View style={{ flex: 1, padding: 10, alignItems: 'center' }}>
                     <Button
                         style={style.btnComments}
                         contentStyle={{ height: 50 }}
@@ -203,34 +204,40 @@ export default function PictureDetails({ navigation, route }) {
                     >
                         Notes : {commentsCount}
                     </Button>
-                    <TouchableOpacity 
-                        onPress={() => 
-                            navigation.navigate('My Modal Votes',{
-                                picture:currentPicture, 
-                                moyenne: votingResultMoy , 
-                                resultText: votingResultText })}
-                        >
+                    {!commentsStatus ?
+                        <Text>The comments of this picture is disabled</Text>
+                        :
+                        null
+                    }
+                    <TouchableOpacity
+                        onPress={() =>
+                            navigation.navigate('My Modal Votes', {
+                                picture: currentPicture,
+                                moyenne: votingResultMoy,
+                                resultText: votingResultText
+                            })}
+                    >
                         <View style={style.btnVotes}>
-                            <Text style={{fontSize:18, color:'#fff', fontWeight:'bold'}}>Voting result : {votingResultMoy}/30 </Text>
-                            <Icon name={'read-more'} size={30} color={'#fff'}/>
+                            <Text style={{ fontSize: 18, color: '#fff', fontWeight: 'bold' }}>STATISTICS </Text>
+                            <Icon name={'read-more'} size={30} color={'#fff'} />
                         </View>
                     </TouchableOpacity>
                 </View>
-                
-                
+
+
             </ScrollView>
-                <Snackbar
-                    style={style.snackBar}
-                    visible={visible}
-                    onDismiss={onDismissSnackBar}
-                    action={{
+            <Snackbar
+                style={style.snackBar}
+                visible={visible}
+                onDismiss={onDismissSnackBar}
+                action={{
                     label: 'ok',
                     onPress: () => {
                         setVisible(false)
                     },
-                    }}>
-                    Your Status updated successfuly
-                </Snackbar>
+                }}>
+                Your Status updated successfuly
+            </Snackbar>
         </SafeAreaView>
     )
 }
@@ -278,22 +285,22 @@ const style = StyleSheet.create({
         fontSize: 14,
         color: '#000'
     },
-    btnComments:{
-        borderRadius:40,
-        width:width + 40
+    btnComments: {
+        borderRadius: 40,
+        width: width + 40
     },
-    btnVotes:{
-        backgroundColor:'#8a61fa',
-        flexDirection:'row',  justifyContent:'center', alignItems:'center',
-        marginTop : 20,
-        borderRadius:50,
-        width:width + 60,
-        height:50,
+    btnVotes: {
+        backgroundColor: '#8a61fa',
+        flexDirection: 'row', justifyContent: 'center', alignItems: 'center',
+        marginTop: 20,
+        borderRadius: 50,
+        width: width + 60,
+        height: 50,
     },
-    snackBar:{
-        position:'absolute',
-        bottom:10,
-        height:50,
-        width:Dimensions.get('screen').width-20,
+    snackBar: {
+        position: 'absolute',
+        bottom: 10,
+        height: 50,
+        width: Dimensions.get('screen').width - 20,
     }
 });
