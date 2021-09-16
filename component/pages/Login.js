@@ -1,7 +1,7 @@
 import React from 'react'
 import {
-    View, Text, StyleSheet, ScrollView, Alert, ActivityIndicator,
-    KeyboardAvoidingView, Keyboard, TouchableWithoutFeedback, SafeAreaView, StatusBar
+    View, Text, StyleSheet, ScrollView, Alert,
+    KeyboardAvoidingView, Keyboard, TouchableWithoutFeedback, SafeAreaView,
 } from 'react-native';
 import { TextInput, Button } from 'react-native-paper';
 import { CredentialsContext } from '../../context/credentialsContext';

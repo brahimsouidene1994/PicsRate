@@ -213,6 +213,9 @@ dependencies {
 
     implementation (project(':react-native-vector-icons'))
 
+      // For animated GIF support
+    implementation 'com.facebook.fresco:animated-gif:2.0.0'
+
     implementation(project(":react-native-google-signin"))
     implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.0.0' // <-- add this; newer versions should work too
 }

@@ -2,7 +2,7 @@ export const COLORS={
     BLUE:'#257efa',
     RED:'#eb4034',
     GREEN:'#1cc41a',
-    VIOLET:'',
+    VIOLET:'#8a61fa',
     WHITE:'#fff',
     DARK:'',
     GRAYLIGHT:'#c0c0c0',
