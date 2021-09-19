@@ -5,6 +5,9 @@ import IconIonic from 'react-native-vector-icons/Ionicons';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 import PictureService from '../../services/picture.service';
 import MenuPicture from './MenuPicture';
+
+import {COLORS} from '../Colors';
+
 /**grid display */
 const rows = 3;
 const cols = 2;
@@ -103,7 +106,7 @@ const style = StyleSheet.create({
         height: height,
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: '#f0f1f2',
+        backgroundColor: COLORS.CARDBACKGROUND,
         borderRadius: 5,
     },
     cardIcon:{
@@ -133,15 +136,15 @@ const style = StyleSheet.create({
     },
     textStatusActivated: {
         fontSize:50,
-        color: '#36a300',
-        textShadowColor: '#000',
+        color: COLORS.GREEN,
+        textShadowColor: COLORS.BLACK,
         textShadowOffset: { width: 1, height: 3 },
         textShadowRadius: 20
     },
     textStatusDisactivated: {
         fontSize:50,
-        color: '#a60000',
-        textShadowColor: '#000',
+        color: COLORS.RED,
+        textShadowColor: COLORS.BLACK,
         textShadowOffset: { width: 1, height: 3 },
         textShadowRadius: 20
     },

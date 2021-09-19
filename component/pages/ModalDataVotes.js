@@ -6,6 +6,7 @@ import DataPresentation from './DataPresentation';
 
 import { TRAIT } from '../Traits';
 import { CATEGORY } from '../Category';
+import {COLORS} from '../Colors';
 const width = (Dimensions.get('screen').width);
 const height = (Dimensions.get('screen').height);
 
@@ -44,25 +45,25 @@ export default function ModalDataVotes({ navigation, route }) {
         if (category === CATEGORY.SOCIAL) {
             return (
                 <View style={{ flex: 1 }}>
-                    <DataPresentation trait={TRAIT.CONFIDENT} color={'#eb4034'} tab={traitOneArray} />
-                    <DataPresentation trait={TRAIT.AUTHENTIC} color={'#1cc41a'} tab={traitTwoArray} />
-                    <DataPresentation trait={TRAIT.FUN} color={'#1a7ac4'} tab={traitThreeArray} />
+                    <DataPresentation trait={TRAIT.CONFIDENT} color={COLORS.RED} tab={traitOneArray} />
+                    <DataPresentation trait={TRAIT.AUTHENTIC} color={COLORS.GREEN} tab={traitTwoArray} />
+                    <DataPresentation trait={TRAIT.FUN} color={COLORS.BLUE} tab={traitThreeArray} />
                 </View>
             )
         } else if (category === CATEGORY.BUSINESS) {
             return (
                 <View style={{ flex: 1 }}>
-                    <DataPresentation trait={TRAIT.COMPETENT} color={'#1cc41a'} tab={traitOneArray} />
-                    <DataPresentation trait={TRAIT.LIKEBLE} color={'#eb4034'} tab={traitTwoArray} />
-                    <DataPresentation trait={TRAIT.INFLUENTIAL} color={'#1a7ac4'} tab={traitThreeArray} />
+                    <DataPresentation trait={TRAIT.COMPETENT} color={COLORS.GREEN} tab={traitOneArray} />
+                    <DataPresentation trait={TRAIT.LIKEBLE} color={COLORS.RED} tab={traitTwoArray} />
+                    <DataPresentation trait={TRAIT.INFLUENTIAL} color={COLORS.BLUE} tab={traitThreeArray} />
                 </View>
             )
         } else if (category === CATEGORY.DATING) {
             return (
                 <View style={{ flex: 1 }}>
-                    <DataPresentation trait={TRAIT.SMART} color={'#1a7ac4'} tab={traitOneArray} />
-                    <DataPresentation trait={TRAIT.TRUSTWORTHY} color={'#1cc41a'} tab={traitTwoArray} />
-                    <DataPresentation trait={TRAIT.ATTRACTIVE} color={'#eb4034'} tab={traitThreeArray} />
+                    <DataPresentation trait={TRAIT.SMART} color={COLORS.BLUE} tab={traitOneArray} />
+                    <DataPresentation trait={TRAIT.TRUSTWORTHY} color={COLORS.GREEN} tab={traitTwoArray} />
+                    <DataPresentation trait={TRAIT.ATTRACTIVE} color={COLORS.RED} tab={traitThreeArray} />
                 </View>
             )
         } else {
@@ -78,20 +79,20 @@ export default function ModalDataVotes({ navigation, route }) {
                     />
                     <Text style={style.pageTitle}>Statistics</Text>
                     <Text style={style.pageSubTitle}>
-                        <Text style={{ color: '#c0c0c0', fontWeight: 'normal' }}>{'Category : '} </Text>
+                        <Text style={{ color: COLORS.GRAYLIGHT, fontWeight: 'normal' }}>{'Category : '} </Text>
                         {category}
                     </Text>
                     {traitOneArray.length > 0 ?
                         renderTraitsStat()
                         :
-                        <ActivityIndicator size="large" color="#257efa" animating={true} />
+                        <ActivityIndicator size="large" color={COLORS.BLUE} animating={true} />
                     }
                     <Text style={style.pageSubTitle}>
-                        <Text style={{ color: '#c0c0c0', fontWeight: 'normal' }}>{'Moyenne : '}</Text>
+                        <Text style={{ color: COLORS.GRAYLIGHT, fontWeight: 'normal' }}>{'Moyenne : '}</Text>
                         {moyenne}/30
                     </Text>
                     <Text style={style.pageSubTitle}>
-                        <Text style={{ color: '#c0c0c0', fontWeight: 'normal' }}>{'Result : '}</Text>
+                        <Text style={{ color: COLORS.GRAYLIGHT, fontWeight: 'normal' }}>{'Result : '}</Text>
                         {resultText}
                     </Text>
                 </View>
@@ -110,12 +111,12 @@ const style = StyleSheet.create({
     pageTitle: {
         margin: 20,
         fontSize: 28,
-        color: "#257efa",
+        color: COLORS.BLUE,
         fontWeight: 'bold'
     },
     pageSubTitle: {
         fontSize: 24,
-        color: "#000",
+        color: COLORS.BLACK,
         fontWeight: 'bold'
     },
 });

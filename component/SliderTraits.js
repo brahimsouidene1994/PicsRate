@@ -1,35 +1,43 @@
 import React from 'react'
-import { View, Text, Dimensions } from 'react-native'
+import { View, StyleSheet} from 'react-native'
 import SliderVote from './sliderVote/Slider';
-
+import { TRAIT } from './Traits';
+import { COLORS } from './Colors';
+import { CATEGORY } from './Category';
 export default function SliderTraits({ category }) {
     
-    if (category === 'Social') {
+    if (category === CATEGORY.SOCIAL) {
         return (
-            <View style={{alignItems: 'stretch', justifyContent:'space-around' }}>
-                <SliderVote text={'Confident : '} colorTitle={'#eb4034'} voteFunc={1}/>
-                <SliderVote text={'Authentic : '} colorTitle={'#1cc41a'} voteFunc={2}/>
-                <SliderVote text={'Fun : '} colorTitle={'#1a7ac4'} voteFunc={3}/>
+            <View style={style.container}>
+                <SliderVote text={TRAIT.CONFIDENT+' : '} colorTitle={COLORS.RED} voteFunc={1}/>
+                <SliderVote text={TRAIT.AUTHENTIC+' : '} colorTitle={COLORS.GREEN} voteFunc={2}/>
+                <SliderVote text={TRAIT.FUN+' : '} colorTitle={COLORS.BLUE} voteFunc={3}/>
             </View>
         )
-    } else if (category === 'Business') {
+    } else if (category === CATEGORY.BUSINESS) {
         return (
-            <View style={{alignItems: 'stretch', justifyContent:'space-around' }}>
-                <SliderVote text={'Competent : '} colorTitle={'#1cc41a'} voteFunc={1}/>
-                <SliderVote text={'Likable : '} colorTitle={'#eb4034'} voteFunc={2}/>
-                <SliderVote text={'Influential : '} colorTitle={'#1a7ac4'} voteFunc={3}/>
+            <View style={style.container}>
+                <SliderVote text={TRAIT.COMPETENT+' : '} colorTitle={COLORS.GREEN} voteFunc={1}/>
+                <SliderVote text={TRAIT.LIKEBLE+' : '} colorTitle={COLORS.RED} voteFunc={2}/>
+                <SliderVote text={TRAIT.INFLUENTIAL+' : '} colorTitle={COLORS.BLUE} voteFunc={3}/>
             </View>
         )
-    } else if (category === 'Dating') {
+    } else if (category === CATEGORY.DATING) {
         return (
-            <View style={{alignItems: 'stretch', justifyContent:'space-around' }}>
-                <SliderVote text={'Smart : '} colorTitle={'#1a7ac4'}voteFunc={1}/>
-                <SliderVote text={'Trustworthy : '} colorTitle={'#1cc41a'} voteFunc={2}/>
-                <SliderVote text={'Attractive : '} colorTitle={'#eb4034'} voteFunc={3}/>
+            <View style={style.container}>
+                <SliderVote text={TRAIT.SMART+' : '} colorTitle={COLORS.BLUE}voteFunc={1}/>
+                <SliderVote text={TRAIT.TRUSTWORTHY+' : '} colorTitle={COLORS.GREEN} voteFunc={2}/>
+                <SliderVote text={TRAIT.ATTRACTIVE+' : '} colorTitle={COLORS.RED} voteFunc={3}/>
             </View>
         )
     } else {
         return (null);
     }
 }
+const style = StyleSheet.create({
+    container:{
+        alignItems: 'stretch', 
+        justifyContent:'space-around' 
+    }
+});
 

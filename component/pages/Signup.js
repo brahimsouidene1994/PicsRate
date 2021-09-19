@@ -13,6 +13,7 @@ import { TextInput, Button, RadioButton, Checkbox } from 'react-native-paper';
 import { CredentialsContext } from '../../context/credentialsContext';
 
 import AuthService from "../../services/auth.service";
+import {COLORS} from '../Colors';
 
 import { compose } from "recompose";
 import { Formik } from "formik";
@@ -131,7 +132,7 @@ function Signup() {
             <KeyboardAvoidingView
                 behavior={Platform.OS === "android" || Platform.OS === "ios" ? "position" : "padding"} style={style.formPage}>
                 {/* <Text style={style.orText}>or</Text> */}
-                {/* <ActivityIndicator size="large" color="#257efa" animating={loadingIndicator} /> */}
+                {/* <ActivityIndicator size="large" color={COLORS.BLUE} animating={loadingIndicator} /> */}
                 <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
 
                     <Formik
@@ -145,11 +146,11 @@ function Signup() {
                                 <MyInput
                                     label="Email"
                                     name="email"
-                                    outlineColor={'#257efa'}
+                                    outlineColor={COLORS.BLUE}
                                     mode={'outlined'}
                                     type="email"
                                     left={<TextInput.Icon name="email" color={(isTextInputFocused) =>
-                                        isTextInputFocused ? '#257efa' : '#b5b5b5'
+                                        isTextInputFocused ? COLORS.BLUE : COLORS.GRAYLOGO
                                     } />}
                                     style={style.input}
                                     value={email}
@@ -162,16 +163,16 @@ function Signup() {
                                 <MyInput
                                     label="Password"
                                     name="password"
-                                    outlineColor={'#257efa'}
+                                    outlineColor={COLORS.BLUE}
                                     mode={'outlined'}
                                     type="text"
                                     left={<TextInput.Icon name="lock" color={(isTextInputFocused) =>
-                                        isTextInputFocused ? '#257efa' : '#b5b5b5'
+                                        isTextInputFocused ? COLORS.BLUE : COLORS.GRAYLOGO
                                     } />}
                                     right={
                                         <TextInput.Icon name={eye}
                                             color={(isTextInputFocused) =>
-                                                isTextInputFocused ? '#257efa' : '#b5b5b5'
+                                                isTextInputFocused ? COLORS.BLUE : COLORS.GRAYLOGO
                                             }
                                             onPress={() => handleVisibilityPassword()}
                                         />
@@ -188,8 +189,8 @@ function Signup() {
                                 <View style={{ flexDirection: 'row', justifyContent: 'space-around' }}>
                                     <View style={{ flexDirection: 'row', alignItems: "center", padding: 10 }}>
                                         <RadioButton
-                                            color={'#257efa'}
-                                            uncheckedColor={'#257efa'}
+                                            color={COLORS.BLUE}
+                                            uncheckedColor={COLORS.BLUE}
                                             value="MALE"
                                             status={checkedBtnSexe === 'MALE' ? 'checked' : 'unchecked'}
                                             onPress={() => setCheckedBtnSexe('MALE')}
@@ -198,8 +199,8 @@ function Signup() {
                                     </View>
                                     <View style={{ flexDirection: 'row', alignItems: "center" }}>
                                         <RadioButton
-                                            color={'#257efa'}
-                                            uncheckedColor={'#257efa'}
+                                            color={COLORS.BLUE}
+                                            uncheckedColor={COLORS.BLUE}
                                             value="FEMALE"
                                             status={checkedBtnSexe === 'FEMALE' ? 'checked' : 'unchecked'}
                                             onPress={() => setCheckedBtnSexe('FEMALE')}
@@ -221,7 +222,7 @@ function Signup() {
                                     contentStyle={{ height: 50 }}
                                     labelStyle={{ color: "white", fontSize: 18, fontWeight: 'bold' }}
                                     mode="contained"
-                                    color="#257efa"
+                                    color={COLORS.BLUE}
                                     onPress={() => createUser(email, password, checkedBtnSexe)}
                                     disabled={
                                         props.errors.email || props.errors.password || !checkedContrat?
@@ -245,13 +246,13 @@ function Signup() {
 const style = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#fff',
+        backgroundColor: COLORS.WHITE,
         padding: 20,
     },
     title: {
         textAlign: 'center',
         fontSize: 35,
-        color: '#257efa',
+        color: COLORS.BLUE,
         marginTop: 50,
         textTransform: 'capitalize',
         fontWeight: 'bold',
@@ -259,7 +260,7 @@ const style = StyleSheet.create({
         marginBottom: 50
     },
     orText: {
-        color: '#b5b5b5',
+        color: COLORS.GRAYLOGO,
         fontSize: 18,
         textAlign: 'center',
         margin: 8
@@ -278,7 +279,7 @@ const style = StyleSheet.create({
     },
     errorText: {
         fontSize: 14,
-        color: '#9c0000'
+        color: COLORS.DARKRED
     }
 
 });

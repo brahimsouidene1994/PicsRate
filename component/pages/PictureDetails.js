@@ -10,7 +10,7 @@ import CommentService from '../../services/comment.service';
 import { CredentialsContext } from '../../context/credentialsContext';
 
 import Icon from 'react-native-vector-icons/MaterialIcons';
-
+import {COLORS} from '../Colors';
 /**grid display */
 const rows = 3;
 const cols = 2;
@@ -119,10 +119,10 @@ export default function PictureDetails({ navigation, route }) {
                 <View style={style.containerOne}>
                     <Text style={style.pageTitle}>Details</Text>
                     {!currentPicture ?
-                        <ActivityIndicator size="large" color="#257efa" animating={true} />
+                        <ActivityIndicator size="large" color={COLORS.BLUE} animating={true} />
                         :
                         <View style={style.containerInfo}>
-                            <View style={{ paddingRight: 10, borderRightColor: '#a2a8a3', borderRightWidth: 1 }}>
+                            <View style={{ paddingRight: 10, borderRightColor: COLORS.GRAYBORDER, borderRightWidth: 1 }}>
                                 <Pressable
                                     onPress={() => {
                                         navigation.navigate('My Modal', currentPicture.path)
@@ -150,9 +150,9 @@ export default function PictureDetails({ navigation, route }) {
                                 </Text>
                                 <Text style={style.infoLabel} >Status :
                                     {currentPicture.status ?
-                                        <Text style={{ color: 'green', fontSize: 14 }}> Activated</Text>
+                                        <Text style={{ color: COLORS.GREEN, fontSize: 14 }}> Activated</Text>
                                         :
-                                        <Text style={{ color: 'red', fontSize: 14 }}> Desactivated</Text>}
+                                        <Text style={{ color: COLORS.RED, fontSize: 14 }}> Desactivated</Text>}
                                 </Text>
                                 <Text style={style.infoLabel}>Voters :
                                     <Text style={style.infoValue}>{reactionsTot}</Text>
@@ -164,7 +164,7 @@ export default function PictureDetails({ navigation, route }) {
                                     <Button
                                         style={{ borderRadius: 40 }}
                                         contentStyle={{ height: 50 }}
-                                        labelStyle={{ color: "white", fontSize: 16, fontWeight: 'bold' }}
+                                        labelStyle={{ color: COLORS.WHITE, fontSize: 16, fontWeight: 'bold' }}
                                         mode="contained"
                                         color="red"
                                         loading={loading}
@@ -177,9 +177,9 @@ export default function PictureDetails({ navigation, route }) {
                                     <Button
                                         style={{ borderRadius: 40 }}
                                         contentStyle={{ height: 50 }}
-                                        labelStyle={{ color: "white", fontSize: 16, fontWeight: 'bold' }}
+                                        labelStyle={{ color: COLORS.WHITE, fontSize: 16, fontWeight: 'bold' }}
                                         mode="contained"
-                                        color="#257efa"
+                                        color={COLORS.BLUE}
                                         loading={loading}
                                         disabled={btnState}
                                         onPress={() => handleStatus(_id, !currentPicture.status)}
@@ -196,9 +196,9 @@ export default function PictureDetails({ navigation, route }) {
                     <Button
                         style={style.btnComments}
                         contentStyle={{ height: 50 }}
-                        labelStyle={{ color: "#000", fontSize: 16 }}
+                        labelStyle={{ color: COLORS.BLACK, fontSize: 16 }}
                         mode="contained"
-                        color="#c0c0c0"
+                        color={COLORS.GRAYLIGHT}
                         disabled={btnState}
                         onPress={() => navigation.navigate('My Modal Comments')}
                     >
@@ -217,9 +217,9 @@ export default function PictureDetails({ navigation, route }) {
                                 resultText: votingResultText
                             })}
                     >
-                        <View style={style.btnVotes}>
-                            <Text style={{ fontSize: 18, color: '#fff', fontWeight: 'bold' }}>STATISTICS </Text>
-                            <Icon name={'read-more'} size={30} color={'#fff'} />
+                        <View style={style.btnDataStats}>
+                            <Text style={{ fontSize: 18, color: COLORS.WHITE, fontWeight: 'bold' }}>STATISTICS </Text>
+                            <Icon name={'read-more'} size={30} color={COLORS.WHITE} />
                         </View>
                     </TouchableOpacity>
                 </View>
@@ -243,7 +243,7 @@ export default function PictureDetails({ navigation, route }) {
 }
 const style = StyleSheet.create({
     container: {
-        backgroundColor: '#fff',
+        backgroundColor: COLORS.WHITE,
         flex: 1
     },
     containerOne: {
@@ -254,14 +254,14 @@ const style = StyleSheet.create({
     pageTitle: {
         margin: 20,
         fontSize: 28,
-        color: "#257efa",
+        color: COLORS.BLUE,
         fontWeight: 'bold'
     },
     containerInfo: {
         display: 'flex',
         flexDirection: 'row',
         justifyContent: 'space-between',
-        borderBottomColor: '#a2a8a3',
+        borderBottomColor: COLORS.GRAYBORDER,
         borderBottomWidth: 1,
     },
     image: {
@@ -277,21 +277,23 @@ const style = StyleSheet.create({
     },
     infoLabel: {
         fontSize: 16,
-        color: '#6b6969',
+        color: COLORS.DARKLABEL,
         textTransform: 'capitalize'
 
     },
     infoValue: {
         fontSize: 14,
-        color: '#000'
+        color: COLORS.BLACK
     },
     btnComments: {
         borderRadius: 40,
         width: width + 40
     },
-    btnVotes: {
-        backgroundColor: '#8a61fa',
-        flexDirection: 'row', justifyContent: 'center', alignItems: 'center',
+    btnDataStats: {
+        backgroundColor: COLORS.VIOLET,
+        flexDirection: 'row', 
+        justifyContent: 'center', 
+        alignItems: 'center',
         marginTop: 20,
         borderRadius: 50,
         width: width + 60,

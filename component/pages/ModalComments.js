@@ -2,9 +2,11 @@ import React from 'react'
 import { View, Text, Image, StyleSheet, Dimensions, SafeAreaView, Pressable, StatusBar, FlatList } from 'react-native';
 
 import { CredentialsContext } from '../../context/credentialsContext';
-
+import {COLORS} from '../Colors';
 const width = (Dimensions.get('screen').width);
 const height = (Dimensions.get('screen').height);
+
+
 
 const Item = ({message}) => (
     <View style={style.commentContainer}>
@@ -65,20 +67,20 @@ const style = StyleSheet.create({
     pageTitle:{
         margin: 20,
         fontSize: 28,
-        color: "#257efa",
+        color: COLORS.BLUE,
         fontWeight: 'bold'
     },
     commentContainer: {
         height: 50,
         width : width -20,
-        borderBottomColor: "#a2a8a3",
+        borderBottomColor: COLORS.GRAYDARK,
         borderBottomWidth: 1,
         paddingLeft: 10,
         justifyContent: 'center'
     },
     commentText: {
         fontSize: 17,
-        color : '#5c5c5c'
+        color : COLORS.GRAYDARK
     }
 });
 

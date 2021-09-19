@@ -14,7 +14,7 @@ import {
     withNextInputAutoFocusForm,
     withNextInputAutoFocusInput
 } from "react-native-formik";
-
+import {COLORS} from '../Colors';
 const MyInput = compose(
     handleTextInput,
     withNextInputAutoFocusInput
@@ -95,7 +95,7 @@ function Login({ navigation }) {
                                         label="Email"
                                         name="email"
                                         left={<TextInput.Icon name="email" color={(isTextInputFocused) =>
-                                            isTextInputFocused ? '#257efa' : '#b5b5b5'
+                                            isTextInputFocused ? COLORS.BLUE : COLORS.GRAYLOGO
                                         } />}
                                         outlineColor={'#257efa'}
                                         mode={'outlined'}
@@ -115,12 +115,12 @@ function Login({ navigation }) {
                                         mode={'outlined'}
                                         type="text"
                                         left={<TextInput.Icon name="lock" color={(isTextInputFocused) =>
-                                            isTextInputFocused ? '#257efa' : '#b5b5b5'
+                                            isTextInputFocused ? COLORS.BLUE : COLORS.GRAYLOGO
                                         } />}
                                         right={
                                             <TextInput.Icon name={eye}
                                                 color={(isTextInputFocused) =>
-                                                    isTextInputFocused ? '#257efa' : '#b5b5b5'
+                                                    isTextInputFocused ? COLORS.BLUE : COLORS.GRAYLOGO
                                                 }
                                                 onPress={() => handleVisibilityPassword()}
                                             />
@@ -139,7 +139,7 @@ function Login({ navigation }) {
                                         contentStyle={{ height: 50 }}
                                         labelStyle={{ color: "white", fontSize: 18, fontWeight: 'bold' }}
                                         mode="contained"
-                                        color="#257efa"
+                                        color={COLORS.BLUE}
                                         onPress={() => signIn(email, password)}
                                         disabled={
                                             props.errors.email || props.errors.password ?
@@ -175,12 +175,12 @@ const style = StyleSheet.create({
     },
     container: {
         flex: 1,
-        backgroundColor: '#fff'
+        backgroundColor: COLORS.WHITE
     },
     shape: {
         width: 200,
         height: 180,
-        backgroundColor: '#257efa',
+        backgroundColor: COLORS.BLUE,
         borderBottomRightRadius: 200,
 
     },
@@ -190,7 +190,7 @@ const style = StyleSheet.create({
         left: 150,
         width: 60,
         height: 60,
-        backgroundColor: '#257efa',
+        backgroundColor: COLORS.BLUE,
         borderRadius: 100,
 
     },
@@ -202,7 +202,7 @@ const style = StyleSheet.create({
         flex: 1,
         textAlign: 'center',
         fontSize: 35,
-        color: '#257efa',
+        color: COLORS.BLUE,
         marginTop: 50,
         textTransform: 'capitalize',
         fontWeight: 'bold'
@@ -220,13 +220,13 @@ const style = StyleSheet.create({
     },
     textAccount: {
         marginTop: 10,
-        color: '#257efa',
+        color: COLORS.BLUE,
         fontSize: 16,
         textTransform: 'capitalize'
     },
     errorText: {
         fontSize: 14,
-        color: '#9c0000'
+        color: COLORS.DARKRED
     }
 });
 export default Login

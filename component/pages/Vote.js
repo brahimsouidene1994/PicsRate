@@ -1,6 +1,6 @@
 import React from 'react';
 import {
-    View, Text, StyleSheet, ActivityIndicator, Image, Dimensions, Pressable, ScrollView, Alert,
+    View, Text, StyleSheet, ActivityIndicator, Image, Dimensions, Pressable, ScrollView, Alert, TouchableOpacity,
     KeyboardAvoidingView, Keyboard, TouchableWithoutFeedback
 } from 'react-native';
 import { Button, TextInput, Snackbar } from 'react-native-paper';
@@ -12,7 +12,7 @@ import IconFA from 'react-native-vector-icons/FontAwesome5';
 import CommentService from '../../services/comment.service';
 
 import SliderTraits from '../SliderTraits';
-
+import {COLORS} from '../Colors';
 const height = Dimensions.get('screen').height / 2;
 const width = Dimensions.get('screen').width;
 
@@ -74,8 +74,13 @@ export default function Vote({ navigation }) {
                     {
                         randomPictureToVote ?
                             <>
-                                <Text style={style.textCategory}>{randomPictureToVote.category}</Text>
-                                <Text style={style.textContext}>{randomPictureToVote.contextPic}</Text>
+                                <Text style={style.textCategory}>
+                                    {randomPictureToVote.category}{' : '}
+                                    <Text style={style.textContext}>
+                                        {randomPictureToVote.contextPic}
+                                    </Text>
+                                </Text>
+                                
                                 <Pressable
                                     onPress={() => {
                                         navigation.navigate('My Modal', randomPictureToVote.path)
@@ -84,7 +89,7 @@ export default function Vote({ navigation }) {
                                         {
                                             backgroundColor: pressed
                                                 ? 'rgb(210, 230, 255)'
-                                                : 'white'
+                                                : COLORS.WHITE
                                         },
                                     ]}>
                                     <Image source={{ uri: randomPictureToVote.path }} style={style.picture} />
@@ -92,15 +97,24 @@ export default function Vote({ navigation }) {
 
                             </>
                             :
-                            <ActivityIndicator size="large" color="#257efa" animating={true} />
+                            <ActivityIndicator size="large" color={COLORS.BLUE} animating={true} />
                     }
-                    <Button
+                    <TouchableOpacity
+                        onPress={() => pickPictureRandomly()}
                         style={style.btnChangePic}
-                        labelStyle={{ color: "#000", fontSize: 18, flex: 1, justifyContent: 'center' }}
+                    >
+                        <View style={style.btnLabel}>
+                            <Text style={{ fontSize: 18, color: COLORS.BLACK, fontWeight: 'bold' }}>Change </Text>
+                            <IconMat name="navigate-next" color={COLORS.BLACK} size={25} />
+                        </View>
+                    </TouchableOpacity>
+                    {/* <Button
+                        style={style.btnChangePic}
+                        labelStyle={{ color: COLORS.BLACK, fontSize: 18, flex: 1, justifyContent: 'center' }}
                         onPress={() => pickPictureRandomly()}
                     >
-                        next<IconMat name="navigate-next" color="#000" size={20} />
-                    </Button>
+                        change<IconMat name="navigate-next" color={COLORS.BLACK} size={20} />
+                    </Button> */}
                 </View>
                 <View style={style.reactContainer}>
                     <SliderTraits category={randomPicture.category} />
@@ -113,11 +127,11 @@ export default function Vote({ navigation }) {
                                         style={{ width: width - 30 }}
                                         label="Comment"
                                         name="comment"
-                                        outlineColor={'#257efa'}
+                                        outlineColor={COLORS.BLUE}
                                         mode={'outlined'}
                                         type="text"
                                         left={<TextInput.Icon name="comment" color={(isTextInputFocused) =>
-                                            isTextInputFocused ? '#257efa' : '#b5b5b5'
+                                            isTextInputFocused ? COLORS.BLUE : COLORS.GRAYLIGHT
                                         } />}
                                         value={message}
                                         onChangeText={msg => { setMessage(msg) }}
@@ -127,13 +141,13 @@ export default function Vote({ navigation }) {
                                 }
                                 <Button
                                     style={style.btnSubmit}
-                                    labelStyle={{ color: "#fff", fontSize: 18, }}
+                                    labelStyle={{ color: COLORS.WHITE, fontSize: 18, }}
                                     onPress={() => submitComment(message)}
                                     loading={loading}
                                     disabled={btnDisabled}
                                 >
                                     save
-                                    <IconFA name="vote-yea" size={20} color='#fff' />
+                                    <IconFA name="vote-yea" size={20} color={COLORS.WHITE} />
                                 </Button>
                             </View>
                         </TouchableWithoutFeedback>
@@ -161,7 +175,7 @@ const style = StyleSheet.create({
         flex: 1,
     },
     imageContainer: {
-        height: height + 20,
+        height: height + 6,
         width: width,
     },
     picture: {
@@ -182,33 +196,41 @@ const style = StyleSheet.create({
         width: 120,
         borderRadius: 0,
         borderWidth: 1,
-        borderColor: '#257efa',
+        borderColor: COLORS.BLACKs,
         borderTopLeftRadius: 50,
+        borderBottomLeftRadius: 50,
+        justifyContent:'center',
+    },
+    btnLabel:{
+        flexDirection:'row',
+        alignItems:'center',
+        justifyContent:'center'
     },
     btnSubmit: {
-        backgroundColor: '#257efa',
+        backgroundColor: COLORS.BLUE,
         marginTop: 12,
         width: width / 2
     },
     textCategory: {
         padding: 6,
-        fontSize: 16,
+        fontSize: 20,
         fontWeight: 'bold',
         backgroundColor: '#40494f',
         textAlign: 'center',
-        color: '#fff'
+        color: COLORS.WHITE
     },
     textContext: {
-        fontSize: 14,
+        fontSize: 18,
         backgroundColor: '#40494f',
         textAlign: 'center',
-        color: '#fff'
+        color: COLORS.WHITE,
+        fontWeight:'100'
     },
     snackBar:{
         position:'absolute',
         bottom:10,
         height:50,
         width:Dimensions.get('screen').width-20,
-    }
+    },
 });
 

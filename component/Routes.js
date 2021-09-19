@@ -21,6 +21,7 @@ import PictureDetails from './pages/PictureDetails';
 import ModalPicture from './pages/ModalPicture';
 import ModalComments from './pages/ModalComments';
 import ModalDataVotes from './pages/ModalDataVotes';
+import { COLORS } from './Colors';
 const theme = {
     ...DefaultTheme,
     roundness: 10,
@@ -28,7 +29,7 @@ const theme = {
         ...DefaultTheme.colors,
         primary: '#3498db',
         accent: '#f1c40f',
-        placeholder: '#b5b5b5'
+        placeholder: COLORS.GRAYLOGO
     },
 };
 
@@ -64,9 +65,9 @@ function Routes() {
                                                     title: 'My pictures',
                                                     headerLeft: null,
                                                     headerStyle: {
-                                                        backgroundColor: '#257efa',
+                                                        backgroundColor: COLORS.BLUE,
                                                     },
-                                                    headerTintColor: '#fff',
+                                                    headerTintColor: COLORS.WHITE,
                                                     headerTitleStyle: {
                                                         fontWeight: 'bold',
                                                     },
@@ -81,9 +82,9 @@ function Routes() {
                                                 options={{
                                                     title: 'New Test',
                                                     headerStyle: {
-                                                        backgroundColor: '#257efa',
+                                                        backgroundColor: COLORS.BLUE,
                                                     },
-                                                    headerTintColor: '#fff',
+                                                    headerTintColor: COLORS.WHITE,
                                                     headerTitleStyle: {
                                                         fontWeight: 'bold',
                                                     }
@@ -97,7 +98,7 @@ function Routes() {
                                                     headerStyle: {
                                                         backgroundColor: '#40494f',
                                                     },
-                                                    headerTintColor: '#fff',
+                                                    headerTintColor: COLORS.WHITE,
                                                     headerTitleStyle: {
                                                         fontWeight: 'bold',
                                                     }
@@ -109,9 +110,9 @@ function Routes() {
                                                 options={{
                                                     title: 'Details',
                                                     headerStyle: {
-                                                        backgroundColor: '#257efa',
+                                                        backgroundColor: COLORS.BLUE,
                                                     },
-                                                    headerTintColor: '#fff',
+                                                    headerTintColor: COLORS.WHITE,
                                                     headerTitleStyle: {
                                                         fontWeight: 'bold',
                                                     }
@@ -163,9 +164,9 @@ function Routes() {
                                                     title: 'LOG IN',
                                                     headerLeft: null,
                                                     headerStyle: {
-                                                        backgroundColor: '#257efa',
+                                                        backgroundColor: COLORS.BLUE,
                                                     },
-                                                    headerTintColor: '#fff',
+                                                    headerTintColor: COLORS.WHITE,
                                                     headerTitleStyle: {
                                                         fontWeight: 'bold',
                                                     },
@@ -177,9 +178,9 @@ function Routes() {
                                                 options={{
                                                     title: 'Sign Up',
                                                     headerStyle: {
-                                                        backgroundColor: '#257efa',
+                                                        backgroundColor: COLORS.BLUE,
                                                     },
-                                                    headerTintColor: '#fff',
+                                                    headerTintColor: COLORS.WHITE,
                                                     headerTitleStyle: {
                                                         fontWeight: 'bold',
                                                     }
