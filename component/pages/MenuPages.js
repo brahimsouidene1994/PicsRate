@@ -11,7 +11,7 @@ import IconMat from 'react-native-vector-icons/MaterialIcons';
 import IconEntypo from 'react-native-vector-icons/Entypo';
 import AuthService from "../../services/auth.service";
 import {CredentialsContext} from '../../context/credentialsContext';
-import { COLORS } from '../Colors';
+import { COLORS } from '../constants/Colors';
 
 export default function MenuPages() {
     const {navigationState, handleStates, clearPictures} = React.useContext(CredentialsContext);

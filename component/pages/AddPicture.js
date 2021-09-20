@@ -28,9 +28,9 @@ import {
     withNextInputAutoFocusInput
 } from "react-native-formik";
 
-import { CATEGORY } from '../Category';
-import { TRAIT } from '../Traits';
-import { COLORS } from '../Colors';
+import { CATEGORY } from '../constants/Category';
+import { TRAIT } from '../constants/Traits';
+import {COLORS} from '../constants/Colors';
 
 const MyInput = compose(
     handleTextInput,
@@ -46,23 +46,24 @@ const width = Dimensions.get('screen').width / 1.5;
 const height = (Dimensions.get('screen').height / 3) - 20;
 
 const CategoryText = ({category}) =>{
-    if(category === CATEGORY.SOCIAL){
+    if(!category) return null;
+    if(category === CATEGORY.SOCIAL)
         return(
             <Text style={styles.textDescription}>Traits: 
                 <Text style={{color: COLORS.RED}}>{TRAIT.CONFIDENT}</Text>, 
                 <Text style={{color: COLORS.GREEN}}>{TRAIT.AUTHENTIC}</Text>, 
                 <Text style={{color: COLORS.BLUE}}>{TRAIT.FUN}</Text>
             </Text>
-        )
-    }else if(category === CATEGORY.BUSINESS){
+        );
+    if(category === CATEGORY.BUSINESS)
         return(
             <Text style={styles.textDescription}>Traits: 
                 <Text style={{color:COLORS.GREEN}}>{TRAIT.COMPETENT}</Text>, 
                 <Text style={{color:COLORS.BLUE}}>{TRAIT.LIKEBLE}</Text>, 
                 <Text style={{color:COLORS.RED}}>{TRAIT.INFLUENTIAL}</Text>
             </Text>
-        )
-    }else if(category === CATEGORY.DATING){
+        );
+    if(category === CATEGORY.DATING)
         return(
             <Text style={styles.textDescription}>Traits: 
                 <Text style={{color:COLORS.BLUE}}>{TRAIT.SMART}</Text>, 
@@ -70,12 +71,8 @@ const CategoryText = ({category}) =>{
                 <Text style={{color:COLORS.RED}}>{TRAIT.ATTRACTIVE}</Text>
             </Text>
         )      
-    }else{
-        return(
-            null
-        )
-    }
 }
+
 
 export default function AddPicture({ navigation }) {
 
@@ -168,6 +165,7 @@ export default function AddPicture({ navigation }) {
             />
         }
     }
+    
     const resetFields = () =>{
         setCategory('');
         setContext('');

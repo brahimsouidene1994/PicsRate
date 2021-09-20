@@ -1,11 +1,10 @@
 import React from 'react'
 import { View, Image,StyleSheet, Dimensions, SafeAreaView, Pressable, StatusBar } from 'react-native';
-import {COLORS} from '../Colors';
+import {COLORS} from '../constants/Colors';
 
 const width = (Dimensions.get('screen').width) ;
 const height = (Dimensions.get('screen').height);
 export default function ModalPicture({navigation ,route}) {
-    // console.log(route)
     return (
         <SafeAreaView style={{flex : 1, backgroundColor: COLORS.BLACK}}>
             <StatusBar

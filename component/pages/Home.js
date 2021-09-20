@@ -4,7 +4,7 @@ import { CredentialsContext } from '../../context/credentialsContext';
 import PictureService from "../../services/picture.service";
 import Picture from './Picture';
 
-import { COLORS } from '../Colors';
+import { COLORS } from '../constants/Colors';
 
 const width = Dimensions.get('screen').width;
 const height = Dimensions.get('screen').height;
@@ -21,6 +21,7 @@ function Home({ navigation }) {
         PictureService.getPicturesByCurrentUser(id)
             .then((data) => {
                 setUpNavigation(navigation);
+                if (data === null) return ;
                 if (data.length > 0) {
                     fillPictures(data);
                     setPictureState(data);

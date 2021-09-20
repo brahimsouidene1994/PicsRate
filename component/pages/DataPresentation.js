@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Text, StyleSheet, Dimensions } from 'react-native';
 
-import {COLORS} from '../Colors';
+import {COLORS} from '../constants/Colors';
 const width = (Dimensions.get('screen').width);
 const height = (Dimensions.get('screen').height);
 export default function DataPresentation(props) {
@@ -18,9 +18,9 @@ export default function DataPresentation(props) {
         let c2 = 0;
         let c3 = 0;
         tab.forEach(element => {
-            if(element <= 3){c1++}
-            else if((4 <= element) && (element <= 6)){c2++}
-            else if((7 <= element) && (element <= 10)){c3++}
+            if(element <= 3)c1++;
+            if((4 <= element) && (element <= 6))c2++;
+            if((7 <= element) && (element <= 10))c3++;
         });
         setCountRangeOne(c1);
         setCountRangeTow(c2);

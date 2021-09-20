@@ -12,7 +12,7 @@ import IconFA from 'react-native-vector-icons/FontAwesome5';
 import CommentService from '../../services/comment.service';
 
 import SliderTraits from '../SliderTraits';
-import {COLORS} from '../Colors';
+import {COLORS} from '../constants/Colors';
 const height = Dimensions.get('screen').height / 2;
 const width = Dimensions.get('screen').width;
 
@@ -39,9 +39,11 @@ export default function Vote({ navigation }) {
         pickOneRandomPicture(null)
         PictureService.getRandomPictureOfOthers(userCredentials.id)
             .then((response) => {
-                pickOneRandomPicture(response);
-                setRandomPicture(response);
-                // console.log(response)
+                if(response === null) return;
+                if(response){
+                    pickOneRandomPicture(response);
+                    setRandomPicture(response);
+                }
             })
             .catch((error) => console.log(error));
     }
@@ -108,13 +110,6 @@ export default function Vote({ navigation }) {
                             <IconMat name="navigate-next" color={COLORS.BLACK} size={25} />
                         </View>
                     </TouchableOpacity>
-                    {/* <Button
-                        style={style.btnChangePic}
-                        labelStyle={{ color: COLORS.BLACK, fontSize: 18, flex: 1, justifyContent: 'center' }}
-                        onPress={() => pickPictureRandomly()}
-                    >
-                        change<IconMat name="navigate-next" color={COLORS.BLACK} size={20} />
-                    </Button> */}
                 </View>
                 <View style={style.reactContainer}>
                     <SliderTraits category={randomPicture.category} />

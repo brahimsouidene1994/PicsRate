@@ -21,7 +21,7 @@ import PictureDetails from './pages/PictureDetails';
 import ModalPicture from './pages/ModalPicture';
 import ModalComments from './pages/ModalComments';
 import ModalDataVotes from './pages/ModalDataVotes';
-import { COLORS } from './Colors';
+import { COLORS } from './constants/Colors';
 const theme = {
     ...DefaultTheme,
     roundness: 10,

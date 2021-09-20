@@ -6,7 +6,7 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 import PictureService from '../../services/picture.service';
 import MenuPicture from './MenuPicture';
 
-import {COLORS} from '../Colors';
+import {COLORS} from '../constants/Colors';
 
 /**grid display */
 const rows = 3;
@@ -18,7 +18,7 @@ const height = (Dimensions.get('screen').height / rows);
 /**grid display */
 
 function Picture(props) {
-    const { _id, contextPic, createdAt, path, status , voters} = props.pic;
+    const { _id, contextPic, path, status , voters} = props.pic;
     const [loading , setLoading]= React.useState(false);
 
     const deletePicture = ()=>{

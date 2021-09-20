@@ -10,7 +10,7 @@ import CommentService from '../../services/comment.service';
 import { CredentialsContext } from '../../context/credentialsContext';
 
 import Icon from 'react-native-vector-icons/MaterialIcons';
-import {COLORS} from '../Colors';
+import {COLORS} from '../constants/Colors';
 /**grid display */
 const rows = 3;
 const cols = 2;
@@ -44,12 +44,16 @@ export default function PictureDetails({ navigation, route }) {
         loadCommentsOfPicture(null)
         PictureService.getOnePicture(id)
             .then(response => {
-                setCurrentPicture(response);
-                setcommentsStatus(response.commentsStatus);
+                if(response === null) return;
+                if(response){
+                    setCurrentPicture(response);
+                    setcommentsStatus(response.commentsStatus);
+                }
             })
             .catch((error) => Alert.alert(error));
         CommentService.getAllCommentOfPicture(id)
             .then((response) => {
+                if(response === null) return;
                 if (response) {
                     loadCommentsOfPicture(response);
                     setReactionsTot(response.length);
@@ -59,42 +63,52 @@ export default function PictureDetails({ navigation, route }) {
                         countComment(response);
                         voteFormula(response);
                     }
-                    //setCommentsCount(response.length)
                 }
-                else console.log('no comments')
+                else console.log('no comments');
             })
     }
 
     const countComment = (arrayComment) => {
-        let count = 0;
-        arrayComment.forEach(element => {
-            if (element.message !== null) {
-                count++
-            }
-        });
-        setCommentsCount(count);
+        if(arrayComment === null) return;
+        if(arrayComment.length === 0) setCommentsCount(0);
+        if(arrayComment.length > 0){
+            let count = 0;   
+            arrayComment.forEach(element => {
+                if (element.message !== null) {
+                    count++
+                }
+            });
+            setCommentsCount(count);
+        }
     }
+
     const voteFormula = (arrayVotes) => {
-        let votersCount = 0;
-        let traitOne = 0;
-        let traitTwo = 0;
-        let traitThree = 0;
-        arrayVotes.forEach(element => {
-            if (element.voteOne && element.voteTwo && element.voteThree) {
-                votersCount++;
-                traitOne += element.voteOne;
-                traitTwo += element.voteTwo;
-                traitThree += element.voteThree;
-            }
-        });
-        let result = (traitOne + traitTwo + traitThree) / votersCount;
-        setVotingResultMoy(result);
-        if (result <= 10) { setVotingResultText('Bad') }
-        else if ((10 < result) && (result < 15)) { setVotingResultText('Somewhat') }
-        else if ((15 <= result) && (result < 20)) { setVotingResultText('Medium') }
-        else if ((20 <= result) && (result < 25)) { setVotingResultText('Good') }
-        else if ((25 <= result) && (result < 30)) { setVotingResultText('Exellent') }
-        else { setVotingResultText('') }
+        if(arrayVotes === null) return;
+        if(arrayVotes.length === 0) {
+            setVotingResultText('No voters yet'); 
+            setVotingResultMoy(0);
+        }
+        if(arrayVotes.length > 0){
+            let votersCount = 0;
+            let traitOne = 0;
+            let traitTwo = 0;
+            let traitThree = 0;
+            arrayVotes.forEach(element => {
+                if (element.voteOne && element.voteTwo && element.voteThree) {
+                    votersCount++;
+                    traitOne += element.voteOne;
+                    traitTwo += element.voteTwo;
+                    traitThree += element.voteThree;
+                }
+            });
+            let result = (traitOne + traitTwo + traitThree) / votersCount;
+            setVotingResultMoy(result);
+            if (result <= 10) setVotingResultText('Bad') ;
+            if ((10 < result) && (result < 15))  setVotingResultText('Somewhat') ;
+            if ((15 <= result) && (result < 20)) setVotingResultText('Medium') ;
+            if ((20 <= result) && (result < 25)) setVotingResultText('Good') ;
+            if ((25 <= result) && (result < 30)) setVotingResultText('Exellent') ;
+        }
     }
 
     const handleStatus = (id, status) => {
@@ -109,7 +123,8 @@ export default function PictureDetails({ navigation, route }) {
             .catch((error) => Alert.alert(error));
         PictureService.getOnePicture(id)
             .then(response => {
-                setCurrentPicture(response)
+                if(response === null) return ;
+                if(response)setCurrentPicture(response);
             })
             .catch((error) => Alert.alert(error));
     }

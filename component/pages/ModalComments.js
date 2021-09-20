@@ -1,12 +1,9 @@
 import React from 'react'
-import { View, Text, Image, StyleSheet, Dimensions, SafeAreaView, Pressable, StatusBar, FlatList } from 'react-native';
+import { View, Text, StyleSheet, Dimensions, SafeAreaView, StatusBar, FlatList } from 'react-native';
 
 import { CredentialsContext } from '../../context/credentialsContext';
-import {COLORS} from '../Colors';
+import {COLORS} from '../constants/Colors';
 const width = (Dimensions.get('screen').width);
-const height = (Dimensions.get('screen').height);
-
-
 
 const Item = ({message}) => (
     <View style={style.commentContainer}>
@@ -14,8 +11,7 @@ const Item = ({message}) => (
     </View>
 );
 
-export default function ModalComments({ navigation, route }) {
-    // console.log(route)
+export default function ModalComments() {
     const [notesArray, setNotesArray]= React.useState([]);
     const { comments } = React.useContext(CredentialsContext);
 
@@ -28,15 +24,18 @@ export default function ModalComments({ navigation, route }) {
     );
 
     const fillNotesArray= ()=>{
-        let notes=[];
-        let count = 0;
-        comments.forEach(element => {
-            if(element.message){
-                notes.push({id:count, message:element.message})
-            }
-            count++;
-        });
-        setNotesArray(notes);
+        if(comments === null) return ;
+        if(comments.length > 0){
+            let notes=[];
+            let count = 0;
+            comments.forEach(element => {
+                if(element.message){
+                    notes.push({id:count, message:element.message})
+                }
+                count++;
+            });
+            setNotesArray(notes);
+        }
     }
 
     return (

@@ -13,7 +13,7 @@ import { TextInput, Button, RadioButton, Checkbox } from 'react-native-paper';
 import { CredentialsContext } from '../../context/credentialsContext';
 
 import AuthService from "../../services/auth.service";
-import {COLORS} from '../Colors';
+import {COLORS} from '../constants/Colors';
 
 import { compose } from "recompose";
 import { Formik } from "formik";

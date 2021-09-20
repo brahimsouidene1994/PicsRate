@@ -4,11 +4,9 @@ import { View, Text, StyleSheet, Dimensions, SafeAreaView, ScrollView, StatusBar
 import { CredentialsContext } from '../../context/credentialsContext';
 import DataPresentation from './DataPresentation';
 
-import { TRAIT } from '../Traits';
-import { CATEGORY } from '../Category';
-import {COLORS} from '../Colors';
-const width = (Dimensions.get('screen').width);
-const height = (Dimensions.get('screen').height);
+import { TRAIT } from '../constants/Traits';
+import { CATEGORY } from '../constants/Category';
+import {COLORS} from '../constants/Colors';
 
 export default function ModalDataVotes({ navigation, route }) {
     const { category } = route.params.picture;
@@ -26,23 +24,30 @@ export default function ModalDataVotes({ navigation, route }) {
     }, []);
 
     const fillTraitsTables = () => {
-        let t1 = [];
-        let t2 = [];
-        let t3 = [];
-        comments.forEach(element => {
-            if (element.voteOne) {
-                t1.push(element.voteOne);
-                t2.push(element.voteTwo);
-                t3.push(element.voteThree);
-            }
-        });
-        setTraitOneArray(t1);
-        setTraitTwoArray(t2);
-        setTraitThreeArray(t3);
+        if(!comments) return;
+        if(comments.length === 0) {
+            
+        }
+        if(comments.length > 0){
+            let t1 = [];
+            let t2 = [];
+            let t3 = [];
+            comments.forEach(element => {
+                if (element.voteOne) {
+                    t1.push(element.voteOne);
+                    t2.push(element.voteTwo);
+                    t3.push(element.voteThree);
+                }
+            });
+            setTraitOneArray(t1);
+            setTraitTwoArray(t2);
+            setTraitThreeArray(t3);
+        }
     }
 
     function renderTraitsStat() {
-        if (category === CATEGORY.SOCIAL) {
+        if(!category) return null;
+        if (category === CATEGORY.SOCIAL) 
             return (
                 <View style={{ flex: 1 }}>
                     <DataPresentation trait={TRAIT.CONFIDENT} color={COLORS.RED} tab={traitOneArray} />
@@ -50,7 +55,7 @@ export default function ModalDataVotes({ navigation, route }) {
                     <DataPresentation trait={TRAIT.FUN} color={COLORS.BLUE} tab={traitThreeArray} />
                 </View>
             )
-        } else if (category === CATEGORY.BUSINESS) {
+         if (category === CATEGORY.BUSINESS) 
             return (
                 <View style={{ flex: 1 }}>
                     <DataPresentation trait={TRAIT.COMPETENT} color={COLORS.GREEN} tab={traitOneArray} />
@@ -58,7 +63,7 @@ export default function ModalDataVotes({ navigation, route }) {
                     <DataPresentation trait={TRAIT.INFLUENTIAL} color={COLORS.BLUE} tab={traitThreeArray} />
                 </View>
             )
-        } else if (category === CATEGORY.DATING) {
+        if (category === CATEGORY.DATING) 
             return (
                 <View style={{ flex: 1 }}>
                     <DataPresentation trait={TRAIT.SMART} color={COLORS.BLUE} tab={traitOneArray} />
@@ -66,9 +71,7 @@ export default function ModalDataVotes({ navigation, route }) {
                     <DataPresentation trait={TRAIT.ATTRACTIVE} color={COLORS.RED} tab={traitThreeArray} />
                 </View>
             )
-        } else {
-            return null
-        }
+        
     }
     return (
         <SafeAreaView style={{ flex: 1 }}>

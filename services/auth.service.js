@@ -36,7 +36,7 @@ const login = (email, password) => {
       if (response.data.accessToken) {
         AsyncStorage.setItem("userLoggedIn", JSON.stringify(response.data))
         .then(()=>{    
-            console.log('user logged in')
+            // console.log('user logged in')
         })
         .catch(error=>{
             console.log(error)
@@ -50,7 +50,7 @@ const login = (email, password) => {
 const logout = () => {
    AsyncStorage.removeItem('userLoggedIn')
     .then(()=>{
-        console.log('user logged out')
+        // console.log('user logged out')
     })
     .catch(error=>console.log(error))
 };

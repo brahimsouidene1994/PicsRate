@@ -32,7 +32,7 @@ const patchPictureStatus = async (idPicture, status) => {
             },
         )
             .then(response => {
-                console.log('picture updated')
+                // console.log('picture updated')
             });
     } catch (error) {
         console.warn(error);

@@ -14,7 +14,7 @@ import {
     withNextInputAutoFocusForm,
     withNextInputAutoFocusInput
 } from "react-native-formik";
-import {COLORS} from '../Colors';
+import {COLORS} from '../constants/Colors';
 const MyInput = compose(
     handleTextInput,
     withNextInputAutoFocusInput
