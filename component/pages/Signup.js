@@ -10,7 +10,7 @@ import {
 } from '@react-native-google-signin/google-signin';
 import { TextInput, Button, RadioButton, Checkbox } from 'react-native-paper';
 
-import { CredentialsContext } from '../../context/credentialsContext';
+import { useCredentials } from '../../context/credentialsContext';
 
 import AuthService from "../../services/auth.service";
 import {COLORS} from '../constants/Colors';
@@ -42,7 +42,8 @@ GoogleSignin.configure({
     offlineAccess: true
 });
 function Signup() {
-    const { handleStates } = React.useContext(CredentialsContext);
+    
+    const { handleStates } = useCredentials();
 
     const [loadingIndicator, setLoadingIndicator] = React.useState(false);
     const [email, setEmail] = React.useState('');

@@ -4,29 +4,27 @@ import {
     KeyboardAvoidingView, Keyboard, TouchableWithoutFeedback
 } from 'react-native';
 import { Button, TextInput, Snackbar } from 'react-native-paper';
-
-import { CredentialsContext } from '../../context/credentialsContext';
+import { useCredentials, usePictures, useVotes } from '../../context/credentialsContext';
 import PictureService from '../../services/picture.service';
 import IconMat from 'react-native-vector-icons/MaterialIcons';
 import IconFA from 'react-native-vector-icons/FontAwesome5';
 import CommentService from '../../services/comment.service';
-
+import ImageModal from 'react-native-image-modal';
 import SliderTraits from '../SliderTraits';
 import {COLORS} from '../constants/Colors';
 const height = Dimensions.get('screen').height / 2;
 const width = Dimensions.get('screen').width;
 
 
-export default function Vote({ navigation }) {
-
-    const { userCredentials, randomPictureToVote, pickOneRandomPicture,
-        voteOne, voteTow, voteThree } = React.useContext(CredentialsContext);
+export default function Vote() {
+    const {userCredentials} = useCredentials();
+    const {randomPictureToVote, pickOneRandomPicture} =  usePictures();
+    const {voteOne, voteTow, voteThree} = useVotes();
     const [message, setMessage] = React.useState('');
     const [randomPicture, setRandomPicture] = React.useState({});
     const [loading, setLoading] = React.useState(false);
     const [btnDisabled, setBtnDisabled] = React.useState(false);
     const [reload, setReload] = React.useState(false)
-
     const [visible, setVisible] = React.useState(false);
     const onToggleSnackBar = () => setVisible(!visible);
     const onDismissSnackBar = () => setVisible(false);
@@ -52,7 +50,6 @@ export default function Vote({ navigation }) {
         setLoading(true);
         setBtnDisabled(true);
         if(typeof message===''){setMessage(null)}
-        
         let comment = {
             userId: userCredentials.id,
             pictureId: randomPictureToVote._id,
@@ -82,21 +79,13 @@ export default function Vote({ navigation }) {
                                         {randomPictureToVote.contextPic}
                                     </Text>
                                 </Text>
-                                
-                                <Pressable
-                                    onPress={() => {
-                                        navigation.navigate('My Modal', randomPictureToVote.path)
+                                <ImageModal
+                                    resizeMode="contain"
+                                    source={{
+                                            uri: randomPictureToVote.path
                                     }}
-                                    style={({ pressed }) => [
-                                        {
-                                            backgroundColor: pressed
-                                                ? 'rgb(210, 230, 255)'
-                                                : COLORS.WHITE
-                                        },
-                                    ]}>
-                                    <Image source={{ uri: randomPictureToVote.path }} style={style.picture} />
-                                </Pressable>
-
+                                    style={style.picture}
+                                />
                             </>
                             :
                             <ActivityIndicator size="large" color={COLORS.BLUE} animating={true} />

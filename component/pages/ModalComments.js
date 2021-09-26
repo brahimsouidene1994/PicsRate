@@ -1,7 +1,7 @@
 import React from 'react'
 import { View, Text, StyleSheet, Dimensions, SafeAreaView, StatusBar, FlatList } from 'react-native';
 
-import { CredentialsContext } from '../../context/credentialsContext';
+import { usePictures } from '../../context/credentialsContext';
 import {COLORS} from '../constants/Colors';
 const width = (Dimensions.get('screen').width);
 
@@ -13,7 +13,7 @@ const Item = ({message}) => (
 
 export default function ModalComments() {
     const [notesArray, setNotesArray]= React.useState([]);
-    const { comments } = React.useContext(CredentialsContext);
+    const { comments } = usePictures;
 
     React.useEffect(()=>{
         fillNotesArray()

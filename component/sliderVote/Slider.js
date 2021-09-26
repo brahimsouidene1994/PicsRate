@@ -7,10 +7,10 @@ import RailSelected from './RailSelected';
 import Label from './Label';
 import Notch from './Notch';
 
-import { CredentialsContext } from '../../context/credentialsContext';
+import { useVotes } from '../../context/credentialsContext';
 
 export default function SliderVote({text, colorTitle, voteFunc}) {
-    const {choseVoteOne, choseVoteTwo, choseVoteThree} = React.useContext(CredentialsContext);
+    const {choseVoteOne, choseVoteTwo, choseVoteThree} = useVotes();
     const [valueSelected, setValueSelected] = React.useState(1);
     const renderThumb = React.useCallback(() => <Thumb color={colorTitle}/>, []);
     const renderRail = React.useCallback(() => <Rail />, []);

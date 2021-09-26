@@ -1,8 +1,8 @@
 import React from 'react';
 import {View , Text, StyleSheet} from 'react-native';
-import {CredentialsContext} from '../../context/credentialsContext';
-function SplashScreen({navigation}) {
-    const {handleStateSplashScreen} = React.useContext(CredentialsContext);
+import {useCredentials} from '../../context/credentialsContext';
+function SplashScreen() {
+    const {handleStateSplashScreen} = useCredentials();
     const redirection = () =>{
             setTimeout(()=>{handleStateSplashScreen()},2000);
     }

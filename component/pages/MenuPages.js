@@ -10,12 +10,12 @@ import IconIonic from 'react-native-vector-icons/Ionicons';
 import IconMat from 'react-native-vector-icons/MaterialIcons';
 import IconEntypo from 'react-native-vector-icons/Entypo';
 import AuthService from "../../services/auth.service";
-import {CredentialsContext} from '../../context/credentialsContext';
+import {useCredentials, usePictures} from '../../context/credentialsContext';
 import { COLORS } from '../constants/Colors';
 
 export default function MenuPages() {
-    const {navigationState, handleStates, clearPictures} = React.useContext(CredentialsContext);
-
+    const {navigationState, handleStates} = useCredentials();
+    const  {clearPictures} = usePictures();
     const logOut = () =>{
         AuthService.logout();
         handleStates(null, false);

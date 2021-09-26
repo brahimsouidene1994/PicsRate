@@ -1,30 +1,44 @@
 import React from 'react';
 import { Text, View, ScrollView, StyleSheet, Image, ActivityIndicator, TouchableOpacity, StatusBar, SafeAreaView, Dimensions } from 'react-native';
-import { CredentialsContext } from '../../context/credentialsContext';
+import { useCredentials, usePictures } from '../../context/credentialsContext';
+import { useFocusEffect } from '@react-navigation/native';
 import PictureService from "../../services/picture.service";
 import Picture from './Picture';
-
 import { COLORS } from '../constants/Colors';
-
 const width = Dimensions.get('screen').width;
 const height = Dimensions.get('screen').height;
 
 function Home({ navigation }) {
-    const { userCredentials, setUpNavigation, fillPictures, pictures } = React.useContext(CredentialsContext);
+    const {userCredentials , setUpNavigation } = useCredentials();
+    const {fillPictures, pictures, clearPictures} = usePictures();
+
     const [pictureState, setPictureState] = React.useState([]);
     const [showEmptyBox, setshowEmptyBox] = React.useState(false);
     const [loading, setLoading] = React.useState(true);
-    React.useEffect(() => {
-        checkPictures(userCredentials.id);
-    }, [pictures]);
+    // React.useEffect(() => {
+    //     if(!pictures)checkPictures(userCredentials.id);
+    // }, []);
+    useFocusEffect(
+        React.useCallback(() => {
+          // Do something when the screen is focused
+          setLoading(true);
+          checkPictures(userCredentials.id);
+          return () => {
+            // Do something when the screen is unfocused
+            // Useful for cleanup functions
+            clearPictures();
+          };
+        }, [])
+    );
+
     const checkPictures = (id) => {
+        setUpNavigation(navigation);
         PictureService.getPicturesByCurrentUser(id)
             .then((data) => {
-                setUpNavigation(navigation);
                 if (data === null) return ;
                 if (data.length > 0) {
                     fillPictures(data);
-                    setPictureState(data);
+                    // setPictureState(data);
                 }
                 else { setshowEmptyBox(true) }
                 setLoading(false);
@@ -34,11 +48,11 @@ function Home({ navigation }) {
             })
     }
 
-    const picturesTests = pictureState.map((pic) => {
+    const picturesTests = pictures.map((pic) => {
         return (
             <Picture key={pic._id} style={style.boxContainer} pic={pic} navigation={navigation} />
-        )
-    });
+        )  
+        });
 
     return (
         <SafeAreaView style={{ flex: 1 }}>
@@ -46,7 +60,7 @@ function Home({ navigation }) {
                 animated={true}
                 backgroundColor={COLORS.BLACK} />
             {
-                pictureState.length > 0 ?
+                pictures.length > 0 ?
 
                     <ScrollView style={style.container} >
                         <View style={style.sectionContainer}>

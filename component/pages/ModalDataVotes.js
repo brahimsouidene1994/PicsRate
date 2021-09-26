@@ -1,7 +1,7 @@
 import React from 'react'
 import { View, Text, StyleSheet, Dimensions, SafeAreaView, ScrollView, StatusBar, ActivityIndicator } from 'react-native';
 
-import { CredentialsContext } from '../../context/credentialsContext';
+import { usePictures } from '../../context/credentialsContext';
 import DataPresentation from './DataPresentation';
 
 import { TRAIT } from '../constants/Traits';
@@ -13,7 +13,7 @@ export default function ModalDataVotes({ navigation, route }) {
     const { moyenne } = route.params;
     const { resultText } = route.params;
 
-    const { comments } = React.useContext(CredentialsContext);
+    const { comments } = usePictures();
     const [traitOneArray, setTraitOneArray] = React.useState([]);
     const [traitTwoArray, setTraitTwoArray] = React.useState([]);
     const [traitThreeArray, setTraitThreeArray] = React.useState([]);

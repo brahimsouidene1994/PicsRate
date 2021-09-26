@@ -4,7 +4,7 @@ import {
     KeyboardAvoidingView, Keyboard, TouchableWithoutFeedback, SafeAreaView,
 } from 'react-native';
 import { TextInput, Button } from 'react-native-paper';
-import { CredentialsContext } from '../../context/credentialsContext';
+import { useCredentials } from '../../context/credentialsContext';
 import AuthService from "../../services/auth.service";
 import { compose } from "recompose";
 import { Formik } from "formik";
@@ -29,14 +29,12 @@ const validationSchema = Yup.object().shape({
         .min(6, "Password must be atleast 6 characteres*")
 });
 
-
 function Login({ navigation }) {
 
-    const { handleStates } = React.useContext(CredentialsContext);
+    const { handleStates } = useCredentials();
     const [loadingIndicator, setLoadingIndicator] = React.useState(false);
     const [email, setEmail] = React.useState('');
     const [password, setPassword] = React.useState('');
-
     const [eye, setEye] = React.useState('eye-off');
     const [visiblePwd, setVisiblePwd] = React.useState(true);
 
@@ -82,7 +80,6 @@ function Login({ navigation }) {
                         behavior={ Platform.OS === "ios" || Platform.OS === "android" ? "position" : "padding"} style={{flex:1}}>
                         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
                         <View style={style.formPage}>
-                        {/* <ActivityIndicator size="large" color="#257efa" animating={loadingIndicator} /> */}
                         <Formik
                             onSubmit={values => console.log(values)}
                             validationSchema={validationSchema}
