@@ -1,12 +1,11 @@
 import axios from "axios";
 import authHeader from "./auth-header";
-
-const API_URL = "http://192.168.1.15:3000/api/comment/";
+import {API_SAVE_COMMENT, API_GET_ALL_COMMENT} from "@env";
 
 const saveNewComment = async (commentData) => {
     let headers = await authHeader();
     try {
-        await axios.post(API_URL + `add`, commentData,
+        await axios.post(`${API_SAVE_COMMENT}`, commentData,
             {
                 headers: headers
             },
@@ -23,7 +22,7 @@ const getAllCommentOfPicture= async (idPicture) => {
     let headers = await authHeader();
     let commentsOfCurrentPicture= [];
     try {
-        await axios.post(API_URL + "getAllCommentByPicture",
+        await axios.post(`${API_GET_ALL_COMMENT}`,
             {
                 headers: headers,
                 data: { idPicture: idPicture }

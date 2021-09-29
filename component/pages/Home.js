@@ -12,7 +12,6 @@ function Home({ navigation }) {
     const {userCredentials , setUpNavigation } = useCredentials();
     const {fillPictures, pictures, clearPictures} = usePictures();
 
-    const [pictureState, setPictureState] = React.useState([]);
     const [showEmptyBox, setshowEmptyBox] = React.useState(false);
     const [loading, setLoading] = React.useState(true);
     // React.useEffect(() => {

@@ -1,13 +1,19 @@
 import axios from "axios";
 import authHeader from "./auth-header";
-
-const API_URL = "http://192.168.1.15:3000/api/picture/";
+import {
+    API_GET_ALL_PICTURES_CURRENT_USER,
+    API_PATCH_PICTURE_STATUS,
+    API_SAVE_NEW_PICTURE,
+    API_GET_ONE_PICTURE,
+    API_DELETE_PICTURE,
+    API_GET_RANDOM_PICTURE
+}from "@env";
 
 const getPicturesByCurrentUser = async (idUser) => {
     let headers = await authHeader();
     let picturesOfCurrentUser = [];
     try {
-        await axios.post(API_URL + "getAllByUser",
+        await axios.post(`${API_GET_ALL_PICTURES_CURRENT_USER}`,
             {
                 headers: headers,
                 data: { idUser: idUser }
@@ -25,7 +31,7 @@ const getPicturesByCurrentUser = async (idUser) => {
 const patchPictureStatus = async (idPicture, status) => {
     let headers = await authHeader();
     try {
-        await axios.patch(API_URL + `updatestatus/${idPicture}`,
+        await axios.patch(`${API_PATCH_PICTURE_STATUS}` + `${idPicture}`,
             {
                 headers : headers,
                 data: { status: status },
@@ -43,7 +49,7 @@ const saveNewPicture = async (pictureData) => {
     let newPicture ;
     let headers = await authHeader("multipart/form-data");
     try {
-        await axios.post(API_URL + `add`, pictureData,
+        await axios.post(API_SAVE_NEW_PICTURE, pictureData,
             {
                 headers: headers
             },
@@ -61,7 +67,7 @@ const getOnePicture = async(id)=>{
     let picture;
     let headers = await authHeader();
     try{
-        await axios.get(API_URL + `getOnePicture/${id}`,
+        await axios.get(`${API_GET_ONE_PICTURE}` + `${id}`,
         {
             headers : headers
         },
@@ -82,7 +88,7 @@ const getOnePicture = async(id)=>{
 const deletePicture = async (id)=>{
     let headers = await authHeader();
     try{
-        await axios.delete(API_URL + `delete/${id}`,
+        await axios.delete(`${API_DELETE_PICTURE}` + `${id}`,
         {
             headers : headers
         },
@@ -99,7 +105,7 @@ const getRandomPictureOfOthers = async (idUser) => {
     let headers = await authHeader();
     let randomPicture;
     try {
-        await axios.post(API_URL + "getOneRandomPicture",
+        await axios.post(`${API_GET_RANDOM_PICTURE}`,
             {
                 headers: headers,
                 data: { idUser: idUser }
