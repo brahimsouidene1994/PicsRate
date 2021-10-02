@@ -49,7 +49,6 @@ function Picture(props) {
         if(!pictures)return;
         if(pictures.length > 0){
             const newArrayPictures = pictures.filter(singlePicture => singlePicture._id !== id);
-            console.log(newArrayPictures);
             fillPictures(newArrayPictures);
         }
     }

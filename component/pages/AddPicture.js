@@ -27,9 +27,9 @@ import {
 import Icon from 'react-native-vector-icons/AntDesign';
 import ModalAddPicture from '../ModalAddPicture';
 import { CATEGORY } from '../constants/Category';
-import { TRAIT } from '../constants/Traits';
 import { COLORS } from '../constants/Colors';
 import ImageModal from 'react-native-image-modal';
+import TraitsText from '../TraitsText';
 
 const MyInput = compose(
     handleTextInput,
@@ -41,34 +41,6 @@ const validationSchema = Yup.object().shape({
         .required("Please! Enter a context of this picture?*")
 });
 const width = Dimensions.get('screen').width / 1.5;
-
-const CategoryText = ({ category }) => {
-    if (!category) return null;
-    if (category === CATEGORY.SOCIAL)
-        return (
-            <Text style={styles.textDescription}>Traits:
-                <Text style={{ color: COLORS.RED }}>{TRAIT.CONFIDENT}</Text>,
-                <Text style={{ color: COLORS.GREEN }}>{TRAIT.AUTHENTIC}</Text>,
-                <Text style={{ color: COLORS.BLUE }}>{TRAIT.FUN}</Text>
-            </Text>
-        );
-    if (category === CATEGORY.BUSINESS)
-        return (
-            <Text style={styles.textDescription}>Traits:
-                <Text style={{ color: COLORS.GREEN }}>{TRAIT.COMPETENT}</Text>,
-                <Text style={{ color: COLORS.BLUE }}>{TRAIT.LIKEBLE}</Text>,
-                <Text style={{ color: COLORS.RED }}>{TRAIT.INFLUENTIAL}</Text>
-            </Text>
-        );
-    if (category === CATEGORY.DATING)
-        return (
-            <Text style={styles.textDescription}>Traits:
-                <Text style={{ color: COLORS.BLUE }}>{TRAIT.SMART}</Text>,
-                <Text style={{ color: COLORS.GREEN }}>{TRAIT.TRUSTWORTHY}</Text>,
-                <Text style={{ color: COLORS.RED }}>{TRAIT.ATTRACTIVE}</Text>
-            </Text>
-        )
-}
 
 export default function AddPicture({ navigation }) {
 
@@ -212,7 +184,7 @@ export default function AddPicture({ navigation }) {
                                             </Button>
                                         </View>
                                         <View>
-                                            <CategoryText category={category} />
+                                            <TraitsText category={category} />
                                         </View>
                                         <MyInput
                                             label="Title"
@@ -352,11 +324,6 @@ const styles = StyleSheet.create({
     errorText: {
         fontSize: 14,
         color: '#9c0000'
-    },
-    textDescription: {
-        fontSize: 16,
-        color: '#6b6969',
-        padding: 8
     },
     btnSocial: {
         borderRadius: 0,

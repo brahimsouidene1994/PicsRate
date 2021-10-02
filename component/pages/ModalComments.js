@@ -13,7 +13,7 @@ const Item = ({message}) => (
 
 export default function ModalComments() {
     const [notesArray, setNotesArray]= React.useState([]);
-    const { comments } = usePictures;
+    const { comments } = usePictures();
 
     React.useEffect(()=>{
         fillNotesArray()

@@ -3,19 +3,24 @@ import {View , Text, StyleSheet} from 'react-native';
 import {useCredentials} from '../../context/credentialsContext';
 function SplashScreen() {
     const {handleStateSplashScreen} = useCredentials();
-    const redirection = () =>{
-            setTimeout(()=>{handleStateSplashScreen()},2000);
+    const wait = (timeout) => {
+        return new Promise(resolve => setTimeout(resolve, timeout));
+    }
+    const splashScreenVisibility = () =>{
+            wait(2000).then(() => handleStateSplashScreen());
     }
     return (
         <View style={style.container}>
             <Text>PicsRate</Text>
-            {redirection()}
+            {splashScreenVisibility()}
         </View>
     )
 }
 const style = StyleSheet.create({
     container:{
-        flex: 1, alignItems: 'center', justifyContent: 'center'
+        flex: 1, 
+        alignItems: 'center', 
+        justifyContent: 'center'
     },
     text:{
         fontSize:25,

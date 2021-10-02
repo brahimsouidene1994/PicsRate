@@ -36,15 +36,15 @@ export default function DataPresentation(props) {
             <View style={style.dataContainer}>
                 <Text style={style.dataContainerValue}>
                     {countRangeOne}
-                    <Text style={{fontSize:14, color:COLORS.GRAYDARK}}>{' Votes'}</Text>
+                    <Text style={style.textVote}>{' Votes'}</Text>
                 </Text>
                 <Text style={style.dataContainerValue}>
                     {countRangeTow}
-                    <Text style={{fontSize:14, color:COLORS.GRAYDARK}}>{' Votes'}</Text>
+                    <Text style={style.textVote}>{' Votes'}</Text>
                 </Text>
                 <Text style={style.dataContainerValue}>
                     {countRangeThree}
-                    <Text style={{fontSize:14, color:COLORS.GRAYDARK}}>{' Votes'}</Text>
+                    <Text style={style.textVote}>{' Votes'}</Text>
                 </Text>
             </View>
             <View style={style.underDataContainer}>
@@ -93,6 +93,10 @@ const style = StyleSheet.create({
         borderTopWidth: 1,
         paddingTop:5,
         color: COLORS.GRAYDARK
+    },
+    textVote:{
+        fontSize:14, 
+        color:COLORS.GRAYDARK
     }
 
 });

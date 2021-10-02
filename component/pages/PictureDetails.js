@@ -19,6 +19,9 @@ const height = (Dimensions.get('screen').height / rows);
 /**grid display */
 
 export default function PictureDetails({ navigation, route }) {
+    const  _id  = route.params;
+    const { loadCommentsOfPicture } = usePictures();
+
     const [currentPicture, setCurrentPicture] = React.useState(null);
     const [btnState, setBtnState] = React.useState(false);
     const [commentsCount, setCommentsCount] = React.useState(0);
@@ -26,11 +29,7 @@ export default function PictureDetails({ navigation, route }) {
     const [votingResultText, setVotingResultText] = React.useState('');
     const [votingResultMoy, setVotingResultMoy] = React.useState(0);
     const [reactionsTot, setReactionsTot] = React.useState(0);
-    const  _id  = route.params;
     const [loading, setLoading] = React.useState(false);
-
-    const { loadCommentsOfPicture } = usePictures();
-
     const [visible, setVisible] = React.useState(false);
 
     const onToggleSnackBar = () => setVisible(!visible);

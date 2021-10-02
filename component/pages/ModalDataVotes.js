@@ -25,9 +25,6 @@ export default function ModalDataVotes({ navigation, route }) {
 
     const fillTraitsTables = () => {
         if(!comments) return;
-        if(comments.length === 0) {
-            
-        }
         if(comments.length > 0){
             let t1 = [];
             let t2 = [];

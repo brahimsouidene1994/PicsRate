@@ -74,7 +74,6 @@ function Login({ navigation }) {
                 <View >
                     <View style={style.shape}></View>
                     <View style={style.shape2}></View>
-
                     <Text style={style.pageName}>log in</Text>
                     <KeyboardAvoidingView
                         behavior={ Platform.OS === "ios" || Platform.OS === "android" ? "position" : "padding"} style={{flex:1}}>
@@ -86,14 +85,19 @@ function Login({ navigation }) {
                             style={style.formPage}
                         >{(props) => {
                             return (
-
                                 <Form>
                                     <MyInput
                                         label="Email"
                                         name="email"
-                                        left={<TextInput.Icon name="email" color={(isTextInputFocused) =>
-                                            isTextInputFocused ? COLORS.BLUE : COLORS.GRAYLOGO
-                                        } />}
+                                        left={
+                                            <TextInput.Icon 
+                                                name="email" 
+                                                color={
+                                                    (isTextInputFocused) =>
+                                                        isTextInputFocused ? COLORS.BLUE : COLORS.GRAYLOGO
+                                                } 
+                                            />
+                                        }
                                         outlineColor={'#257efa'}
                                         mode={'outlined'}
                                         type="email"
@@ -103,7 +107,8 @@ function Login({ navigation }) {
                                     />
                                     {props.touched.email && props.errors.email ?
                                         (<Text style={style.errorText}>{props.errors.email} </Text>)
-                                        : null
+                                        : 
+                                        null
                                     }
                                     <MyInput
                                         label="Password"
@@ -111,9 +116,15 @@ function Login({ navigation }) {
                                         outlineColor={'#257efa'}
                                         mode={'outlined'}
                                         type="text"
-                                        left={<TextInput.Icon name="lock" color={(isTextInputFocused) =>
-                                            isTextInputFocused ? COLORS.BLUE : COLORS.GRAYLOGO
-                                        } />}
+                                        left={
+                                            <TextInput.Icon 
+                                                name="lock" 
+                                                color={
+                                                    (isTextInputFocused) =>
+                                                        isTextInputFocused ? COLORS.BLUE : COLORS.GRAYLOGO
+                                                } 
+                                            />
+                                        }
                                         right={
                                             <TextInput.Icon name={eye}
                                                 color={(isTextInputFocused) =>
@@ -129,7 +140,8 @@ function Login({ navigation }) {
                                     />
                                     {props.touched.password && props.errors.password ?
                                         (<Text style={style.errorText}>{props.errors.password} </Text>)
-                                        : null
+                                        : 
+                                        null
                                     }
                                     <Button
                                         style={style.btn}
@@ -154,9 +166,18 @@ function Login({ navigation }) {
                         </Formik>
                         <Text
                             style={style.textAccount}
-                            onPress={() => navigation.navigate('Signup')}
-                        >You don't have account? sign up</Text>
-                        <Text style={style.textAccount} onPress={() => navigation.navigate('test page')}>forget your password?</Text>
+                            onPress={
+                                () => navigation.navigate('Signup')}
+                        >
+                            You don't have account? sign up
+                        </Text>
+                        <Text 
+                            style={style.textAccount} 
+                            onPress={
+                                () => navigation.navigate('test page')}
+                        >
+                            forget your password?
+                        </Text>
                     </View>
                     </TouchableWithoutFeedback>
                     </KeyboardAvoidingView>
