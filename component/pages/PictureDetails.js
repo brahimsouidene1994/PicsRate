@@ -127,6 +127,20 @@ export default function PictureDetails({ navigation, route }) {
             });
             // changePictureStatus(_id, status);
     }
+
+    const formatDate = (chDate)=>{
+        var d = new Date(chDate),
+        month = '' + (d.getMonth() + 1),
+        day = '' + d.getDate(),
+        year = d.getFullYear();
+
+        if (month.length < 2) 
+            month = '0' + month;
+        if (day.length < 2) 
+            day = '0' + day;
+
+        return [year, month, day].join('-');
+    }
     return (
         <SafeAreaView style={{ flex: 1 }}>
             <ScrollView style={style.container}>
@@ -152,8 +166,8 @@ export default function PictureDetails({ navigation, route }) {
                                 <Text style={style.infoLabel}>Title :
                                     <Text style={style.infoValue}>{currentPicture.contextPic}</Text>
                                 </Text>
-                                <Text style={style.infoLabel}>Created at :
-                                    <Text style={style.infoValue}>{currentPicture.createdAt}</Text>
+                                <Text style={style.infoLabel}>Created :
+                                    <Text style={style.infoValue}>{formatDate(currentPicture.createdAt)}</Text>
                                 </Text>
                                 <Text style={style.infoLabel} >Status :
                                     {currentPicture.status ?
